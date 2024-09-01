@@ -152,29 +152,30 @@ const SubmitPending = () => {
   return (
     <div className="loginPage">
   
-<Navbar bg="light" expand="lg" className="mb-5">
-    <Container>
-      <Navbar.Brand href="/">
-      <img src="Images/itf-logo-large.png" alt="" className="itf_logo"/>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="me-auto">
-          <Nav.Link href="/">
-          <h2 className="text-danger">SIWES E-Logbook</h2>
-          </Nav.Link>
-        </Nav>
-        <Nav className="ms-auto">
-          <Nav.Link className="text-danger">Log in as: </Nav.Link>
-          <Nav.Link href="/student_login" className="nav-item-right rounded">Student</Nav.Link>
-          <Nav.Link href="/industry_supervisor_login" className="nav-item-right rounded">Industry Supervisor</Nav.Link>
-          <Nav.Link href="/school_supervisor_login" className="nav-item-right rounded">School Supervisor</Nav.Link>
-          <Nav.Link href="/adminlogin" className="nav-item-right rounded">Admin</Nav.Link>
-          <Nav.Link href="/submit_pending" className="border border-3 border-success nav-item-register rounded">REGISTER</Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Container>
-  </Navbar>
+  <Navbar bg="light" expand="lg" className="mb-5">
+      <Container>
+        <Navbar.Brand onClick={() => {navigate('/')}}>
+        <img src="Images/itf-logo-large.png" alt="" className="itf_logo"/>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link onClick={() => {navigate('/')}}>
+            <h2 className="text-danger">SIWES E-Logbook</h2>
+            </Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            <Nav.Link className="text-danger">Log in as: </Nav.Link>
+            <Nav.Link onClick={() => {navigate('/student_login')}} className="nav-item-right rounded">Student</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/industry_supervisor_login')}} className="nav-item-right rounded">Industry Supervisor</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/school_supervisor_login')}} className="nav-item-right rounded">School Supervisor</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/adminlogin')}} className="nav-item-right rounded">Admin</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/submit_pending')}} className="border border-3 border-success nav-item-register rounded">REGISTER</Nav.Link>
+
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
 
   <section className="text-light mb-5">
     <h2 className="text-white text-center">Register Details for:</h2>
