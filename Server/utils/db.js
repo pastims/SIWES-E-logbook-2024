@@ -1,11 +1,18 @@
 import mysql from 'mysql'
 
 const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "siwes-elogbook"
+    host: "sql.freedb.tech",
+    user: "freedb_timttech",
+    password: "uhc6@vdAdbX#*&k",
+    database: "freedb_siwes-elogbook"
 })
+
+// const con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "siwes-elogbook"
+// })
 
 con.connect(function(err) {
     if(err) {
