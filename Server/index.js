@@ -9,6 +9,7 @@ import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
 const app = express() 
+const PORT = process.env.PORT || 3000;
 app.use(cors({
     origin: ["https://siwes-e-logbook-2024.vercel.app/"],
     methods: ['GET', 'POST', 'PUT', "DELETE"],
@@ -43,6 +44,6 @@ app.get('/verify', verifyUser, (req, res)=> {
         return res.json({Status: true, role: req.role, id: req.id})
 } )
 
-app.listen(3000, () => {
-    console.log("Server is running")
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
 })
