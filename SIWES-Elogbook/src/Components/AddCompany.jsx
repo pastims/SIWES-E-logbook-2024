@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddCompany = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [company, setCompany] = useState({
     name: "",
     address: "",
@@ -12,7 +13,7 @@ const AddCompany = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/company")
+      .get(apiUrl + "/auth/company")
       .then((result) => {
         if (result.data.Status) {
           setCompany(result.data.Result);
@@ -30,7 +31,7 @@ const AddCompany = () => {
     formData.append('address', company.address);
     formData.append('address', company.phone_number);
 
-    axios.post('http://localhost:3000/auth/add_company', company)
+    axios.post(apiUrl + '/auth/add_company', company)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/company')

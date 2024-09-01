@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Employee = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [employee, setEmployee] = useState([]);
 //   const navigate = useNavigate()
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/employee")
+      .get(apiUrl + "/auth/employee")
       .then((result) => {
         if (result.data.Status) {
           setEmployee(result.data.Result);
@@ -21,7 +22,7 @@ const Employee = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_employee/'+id)
+    axios.delete(apiUrl + '/auth/delete_employee/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()
@@ -57,7 +58,7 @@ const Employee = () => {
                 <td>{e.name}</td>
                 <td>
                   <img
-                    src={`http://localhost:3000/Images/` + e.image}
+                    src={apiUrl + `/Images/` + e.image}
                     className="employee_image"
                   />
                 </td>

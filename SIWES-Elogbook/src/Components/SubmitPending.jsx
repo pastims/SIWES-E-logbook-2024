@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 const SubmitPending = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [company, setCompany] = useState({
         role: 'company',
         name: '',
@@ -39,7 +40,7 @@ const SubmitPending = () => {
 
     useEffect(() => {
       axios
-        .get("http://localhost:3000/auth/company")
+        .get(apiUrl + "/auth/company")
         .then((result) => {
           if (result.data.Status) {
             setCompanyInRecord(result.data.Result);
@@ -81,7 +82,7 @@ const SubmitPending = () => {
     
         // console.log(formData.entries());
     
-        axios.post('http://localhost:3000/employee/submit_company', company)
+        axios.post(apiUrl + '/employee/submit_company', company)
         .then(result => {
             if(result.data.Status) {
                 navigate('/')
@@ -106,7 +107,7 @@ const SubmitPending = () => {
     
         // console.log(formData.entries());
     
-        axios.post('http://localhost:3000/employee/submit_school_supervisor', schoolSupervisor)
+        axios.post(apiUrl + '/employee/submit_school_supervisor', schoolSupervisor)
         .then(result => {
             if(result.data.Status) {
                 navigate('/')
@@ -132,7 +133,7 @@ const SubmitPending = () => {
     
         // console.log(formData.entries());
     
-        axios.post('http://localhost:3000/employee/submit_industry_supervisor', industrySupervisor)
+        axios.post(apiUrl + '/employee/submit_industry_supervisor', industrySupervisor)
         .then(result => {
             if(result.data.Status) {
                 navigate('/')

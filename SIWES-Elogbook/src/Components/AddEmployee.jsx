@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddEmployee = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
@@ -17,7 +18,7 @@ const AddEmployee = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/category")
+      .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
           setCategory(result.data.Result);
@@ -39,7 +40,7 @@ const AddEmployee = () => {
     formData.append('image', employee.image);
     formData.append('category_id', employee.category_id);
 
-    axios.post('http://localhost:3000/auth/add_employee', formData)
+    axios.post(apiUrl + '/auth/add_employee', formData)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/employee')

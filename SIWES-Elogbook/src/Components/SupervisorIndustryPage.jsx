@@ -6,6 +6,7 @@ import { useNavigate, useParams, Outlet, Link } from 'react-router-dom'
 const SupervisorIndustryPage = () => {
       
     const {id} = useParams()
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [supervisorI, setSupervisorI] = useState([])
     const [searchStudent, setSearchStudent] = useState({
         // name: "",
@@ -19,7 +20,7 @@ const SupervisorIndustryPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:3000/industry_supervisor/get_detail/'+id)
+        axios.get(apiUrl + '/industry_supervisor/get_detail/'+id)
         .then(result => {
             setSupervisorI(result.data[0]);
             setback(get_company(result.data[0].company_id));
@@ -34,7 +35,7 @@ const SupervisorIndustryPage = () => {
     const get_company = (message) => {
       // const comp_id = supervisorI.company_id;
       // console.log(comp_id);
-      axios.get('http://localhost:3000/student/get_company/'+ message)
+      axios.get(apiUrl + '/student/get_company/'+ message)
             .then(result => {
                   console.log(result)
                   console.log(result.data)
@@ -47,7 +48,7 @@ const SupervisorIndustryPage = () => {
         e.preventDefault();
         // search student
         let st_id;
-        axios.post('http://localhost:3000/industry_supervisor/search_student', searchStudent)
+        axios.post(apiUrl + '/industry_supervisor/search_student', searchStudent)
             .then(result => {
                 if (result.data.Status) {
                     st_id = result.data.Result[0].id;
@@ -74,7 +75,7 @@ const SupervisorIndustryPage = () => {
 };
 
     const handleLogout = () => {
-        axios.get('http://localhost:3000/industry_supervisor/logout')
+        axios.get(apiUrl + '/industry_supervisor/logout')
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")

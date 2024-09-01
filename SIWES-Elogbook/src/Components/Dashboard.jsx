@@ -4,10 +4,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 
 const Dashboard = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate()
   axios.defaults.withCredentials = true
   const handleLogout = () => {
-    axios.get('http://localhost:3000/auth/logout')
+    axios.get(apiUrl + '/auth/logout')
     .then(result => {
       if(result.data.Status) { 
         localStorage.removeItem("valid")

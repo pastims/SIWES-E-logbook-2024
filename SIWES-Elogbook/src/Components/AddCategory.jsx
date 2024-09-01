@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const AddCategory = () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [category, setCategory] = useState()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:3000/auth/add_category', {category})
+        axios.post(apiUrl + '/auth/add_category', {category})
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/category')

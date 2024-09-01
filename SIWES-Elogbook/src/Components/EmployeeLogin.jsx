@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const EmployeeLogin = () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -13,7 +14,7 @@ const EmployeeLogin = () => {
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post('http://localhost:3000/employee/employee_login', values)
+        axios.post(apiUrl + '/employee/employee_login', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)

@@ -6,9 +6,10 @@ import { useParams } from 'react-router-dom'
 const WeekImage = () => {
     const {id} = useParams()
     const [weekImages, setWeekImages] = useState([])
+    const apiUrl = import.meta.env.VITE_API_BASE_URL
 
     useEffect(() => {
-        axios.get('http://localhost:3000/student/get_week_image/'+id)
+        axios.get(apiUrl + '/student/get_week_image/'+id)
         .then(result => {
             setWeekImages(result.data);
             console.log(JSON.stringify(result.data))
@@ -31,7 +32,7 @@ const WeekImage = () => {
                     <tbody>
                             <tr >
                                 <th>Week {c.week_number}</th>
-                                <th><img src={`http://localhost:3000/Week_Pics/`+ c.week_image} className='week_image'/></th>
+                                <th><img src={apiUrl + `/Week_Pics/`+ c.week_image} className='week_image'/></th>
                             </tr>
                     </tbody>
             </table>
@@ -47,7 +48,7 @@ const WeekImage = () => {
                     <tbody>
                             <tr>
                                 <td>Week {c.week_number}<br />
-                                <img src={`http://localhost:3000/Week_Pics/`+ c.week_image} className='week_image'/></td>
+                                <img src={apiUrl + `/Week_Pics/`+ c.week_image} className='week_image'/></td>
                             </tr>
                     </tbody>
             </table>

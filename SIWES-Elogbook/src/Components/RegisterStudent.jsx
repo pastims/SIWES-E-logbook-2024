@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const RegisterStudent = () => {
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [student, setStudent] = useState({
     course: "",
     year_study: "",
@@ -21,7 +21,7 @@ const RegisterStudent = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get('http://localhost:3000/student/dashboard/'+id)
+    axios.get(apiUrl + '/student/dashboard/'+id)
     .then(result => {
         setStudent(result.data[0])
     })
@@ -30,7 +30,7 @@ const RegisterStudent = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/company")
+      .get(apiUrl + "/auth/company")
       .then((result) => {
         if (result.data.Status) {
           setCompany(result.data.Result);
@@ -54,7 +54,7 @@ const RegisterStudent = () => {
     formData.append('date_start', student.date_start);
     // formData.append('image', student.image);
 
-    axios.put('http://localhost:3000/student/register_student/' + id, student)
+    axios.put(apiUrl + '/student/register_student/' + id, student)
     .then(result => {
         if(result.data.Status) {
             navigate('/student_dashboard/' + id)

@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 const Company = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [company, setCompany] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/auth/company')
+    axios.get(apiUrl + '/auth/company')
     .then(result => {
         if(result.data.Status) {
           setCompany(result.data.Result);

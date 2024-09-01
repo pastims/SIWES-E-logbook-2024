@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddSchoolSupervisor = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [schoolSupervisor, setSchoolSupervisor] = useState({
     name: "",
     staff_id: "",
@@ -16,7 +17,7 @@ const AddSchoolSupervisor = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/category")
+      .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
           setCategory(result.data.Result);
@@ -37,7 +38,7 @@ const AddSchoolSupervisor = () => {
     formData.append('category_id', schoolSupervisor.category_id);
     formData.append('school', schoolSupervisor.school);
 
-    axios.post('http://localhost:3000/auth/add_school_supervisor', schoolSupervisor)
+    axios.post(apiUrl + '/auth/add_school_supervisor', schoolSupervisor)
     .then(result => {
       console.log(result)
         if(result.data.Status) {

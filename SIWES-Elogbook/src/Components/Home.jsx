@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 const Home = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [adminTotal, setAdminTotal] = useState(0)
   const [studentTotal, setStudentTotal] = useState(0)
   const [schoolSupervisorTotal, setSchoolSupervisorTotal] = useState(0)
@@ -25,7 +26,7 @@ const Home = () => {
   }, [])
 
   const AdminRecords = () => {
-    axios.get('http://localhost:3000/auth/admin_records')
+    axios.get(apiUrl + '/auth/admin_records')
     .then(result => {
       if(result.data.Status) {
         setAdmins(result.data.Result)
@@ -35,7 +36,7 @@ const Home = () => {
     })
   }
   const adminCount = () => {
-    axios.get('http://localhost:3000/auth/admin_count')
+    axios.get(apiUrl + '/auth/admin_count')
     .then(result => {
       if(result.data.Status) {
         setAdminTotal(result.data.Result[0].admin)
@@ -43,7 +44,7 @@ const Home = () => {
     })
   }
   const employeeCount = () => {
-    axios.get('http://localhost:3000/auth/employee_count')
+    axios.get(apiUrl + '/auth/employee_count')
     .then(result => {
       if(result.data.Status) {
         setemployeeTotal(result.data.Result[0].employee)
@@ -51,7 +52,7 @@ const Home = () => {
     })
   }
   const companyCount = () => {
-    axios.get('http://localhost:3000/auth/company_count')
+    axios.get(apiUrl + '/auth/company_count')
     .then(result => {
       if(result.data.Status) {
         setCompanyTotal(result.data.Result[0].company)
@@ -59,7 +60,7 @@ const Home = () => {
     })
   }
   const studentCount = () => {
-    axios.get('http://localhost:3000/auth/student_count')
+    axios.get(apiUrl + '/auth/student_count')
     .then(result => {
       if(result.data.Status) {
         setStudentTotal(result.data.Result[0].student)
@@ -67,7 +68,7 @@ const Home = () => {
     })
   }
   const schoolSupervisorCount = () => {
-    axios.get('http://localhost:3000/auth/school_supervisor_count')
+    axios.get(apiUrl + '/auth/school_supervisor_count')
     .then(result => {
       if(result.data.Status) {
         setSchoolSupervisorTotal(result.data.Result[0].school_supervisor)
@@ -75,7 +76,7 @@ const Home = () => {
     })
   }
   const industrySupervisorCount = () => {
-    axios.get('http://localhost:3000/auth/industry_supervisor_count')
+    axios.get(apiUrl + '/auth/industry_supervisor_count')
     .then(result => {
       if(result.data.Status) {
         setIndustrySupervisorTotal(result.data.Result[0].industry_supervisor)
@@ -83,7 +84,7 @@ const Home = () => {
     })
   }
   const pendingCount = () => {
-    axios.get('http://localhost:3000/auth/pending_count')
+    axios.get(apiUrl + '/auth/pending_count')
     .then(result => {
       if(result.data.Status) {
         setPendingTotal(result.data.Result[0].pending_details)
@@ -91,7 +92,7 @@ const Home = () => {
     })
   }
   const salaryCount = () => {
-    axios.get('http://localhost:3000/auth/salary_count')
+    axios.get(apiUrl + '/auth/salary_count')
     .then(result => {
       if(result.data.Status) {
         setSalaryTotal(result.data.Result[0].salaryOFEmp)

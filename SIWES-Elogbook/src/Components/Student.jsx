@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Student = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [student, setStudent] = useState([]);
 //   const navigate = useNavigate()
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/student")
+      .get(apiUrl + "/auth/student")
       .then((result) => {
         if (result.data.Status) {
           setStudent(result.data.Result);
@@ -22,7 +23,7 @@ const Student = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_student/'+id)
+    axios.delete(apiUrl + '/auth/delete_student/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

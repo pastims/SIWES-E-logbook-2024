@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 const Category = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [category, setCategory] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/auth/category')
+    axios.get(apiUrl + '/auth/category')
     .then(result => {
         if(result.data.Status) {
           setCategory(result.data.Result);

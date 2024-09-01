@@ -5,8 +5,10 @@ import {  useParams } from 'react-router-dom'
 const Week = () => {
     const { id } = useParams()
     const [week, setWeek] = useState({});
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    
     useEffect(() => {
-        axios.get('http://localhost:3000/student/view_week/'+id)
+        axios.get(apiUrl + '/student/view_week/'+id)
         .then(result => {
             setWeek(result.data);
             console.log(JSON.stringify(result.data))

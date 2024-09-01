@@ -9,12 +9,13 @@ const SupervisorSchoolLogin = () => {
         staff_id: '',
         password: ''
     })
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post('http://localhost:3000/school_supervisor/school_supervisor_login', values)
+        axios.post(apiUrl + '/school_supervisor/school_supervisor_login', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const AddDay = () => {
     const {id} = useParams()
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     // const [week, setWeek] = useState({});
     const [logEntry, SetLogEntry] = useState({
         week_number: "",
@@ -15,7 +16,7 @@ const AddDay = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(logEntry)
-        axios.post('http://localhost:3000/student/add_daily/'+id, logEntry)
+        axios.post(apiUrl + '/student/add_daily/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')

@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 const Login = () => {
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -15,7 +15,7 @@ const Login = () => {
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post('http://localhost:3000/auth/adminlogin', values)
+        axios.post(apiUrl + '/auth/adminlogin', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)

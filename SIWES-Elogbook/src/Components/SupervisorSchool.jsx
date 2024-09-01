@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 
 const SupervisorSchool = () => {
   const [employee, setEmployee] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   // const navigate = useNavigate()
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/school_supervisor")
+      .get(apiUrl + "/auth/school_supervisor")
       .then((result) => {
         if (result.data.Status) {
           setEmployee(result.data.Result);
@@ -21,7 +22,7 @@ const SupervisorSchool = () => {
   }, []);
 
   // const handleLogout = () => {
-  //   axios.get('http://localhost:3000/school_supervisor/logout')
+  //   axios.get(apiUrl + '/school_supervisor/logout')
   //   .then(result => {
   //     if(result.data.Status) {
   //       localStorage.removeItem("valid")
@@ -31,7 +32,7 @@ const SupervisorSchool = () => {
   // }
 
   // const handleDelete = (id) => {
-  //   axios.delete('http://localhost:3000/auth/delete_employee/'+id)
+  //   axios.delete(apiUrl + '/auth/delete_employee/'+id)
   //   .then(result => {
   //       if(result.data.Status) {
   //           window.location.reload()

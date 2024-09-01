@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EditWeek = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const {id} = useParams()
     const [week, setWeek] = useState({
       week_number: "",
@@ -23,7 +24,7 @@ const EditWeek = () => {
 
   //   useEffect(() => {
   //     // const week_no = logEntry.week_number;
-  //     axios.get('http://localhost:3000/student/view_week/'+ id)
+  //     axios.get(apiUrl + '/student/view_week/'+ id)
   //     .then(result => {
   //         setWeek(result.data);
   //         // console.log(JSON.stringify(result.data))
@@ -41,7 +42,7 @@ const EditWeek = () => {
   
       parameters.week_number = week.week_number;
       console.log(parameters);
-      axios.post('http://localhost:3000/student/get_week/'+ id, parameters)
+      axios.post(apiUrl + '/student/get_week/'+ id, parameters)
       .then(result => {
         SetLogEntry({
           ...logEntry,
@@ -66,7 +67,7 @@ const EditWeek = () => {
         e.preventDefault()
         // SetLogEntry({...logEntry, week_number: week.week_number})
 
-        axios.post('http://localhost:3000/student/edit_week/'+id, logEntry)
+        axios.post(apiUrl + '/student/edit_week/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')

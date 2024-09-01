@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 
 const AddWeekImage = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const {id} = useParams();
     const [WeekImage, setWeekImage] = useState({
         week_no: "",
@@ -21,7 +22,7 @@ const AddWeekImage = () => {
         formData.append('week_no', WeekImage.week_no);
         formData.append('image', WeekImage.image);
     
-        axios.put('http://localhost:3000/student/add_week_image/' + id, formData)
+        axios.put(apiUrl + '/student/add_week_image/' + id, formData)
         .then(result => {
             if(result.data.Status) {
                 console.log('works')

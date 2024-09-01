@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams, Outlet, Link } from "react-router-dom";
 
 const Logbook = () => {
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [logbook, setLogbook] = useState([]);
   const {id} = useParams();
   logbook;
 
   useEffect(() => {
-    axios.get('http://localhost:3000/student/logbook/'+id)
+    axios.get(apiUrl + '/student/logbook/'+id)
     .then(result => {
         setLogbook(result.data[0])
     })

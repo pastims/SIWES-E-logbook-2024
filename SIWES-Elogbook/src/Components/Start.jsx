@@ -6,9 +6,11 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 
 const Start = () => {
     const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get('http://localhost:3000/verify')
+    axios.get(apiUrl + '/verify')
     .then(result => {
       console.log(result)
       if(result.data.Status) {

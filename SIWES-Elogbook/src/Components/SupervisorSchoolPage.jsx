@@ -5,6 +5,8 @@ import { useNavigate, useParams, Outlet, Link } from 'react-router-dom'
 
 const SupervisorSchoolPage = () => {
     const {id} = useParams()
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    
     const [supervisorS, setSupervisorS] = useState([])
     const [searchStudent, setSearchStudent] = useState({
         // name: "",
@@ -17,7 +19,7 @@ const SupervisorSchoolPage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:3000/school_supervisor/get_detail/'+id)
+        axios.get(apiUrl + '/school_supervisor/get_detail/'+id)
         .then(result => {
             setSupervisorS(result.data[0])
         })
@@ -28,7 +30,7 @@ const SupervisorSchoolPage = () => {
         e.preventDefault();
         // search student
         let st_id;
-            axios.post('http://localhost:3000/school_supervisor/search_student', searchStudent)
+            axios.post(apiUrl + '/school_supervisor/search_student', searchStudent)
             .then(result => {
                 if (result.data.Status) {
                     st_id = result.data.Result[0].id;
@@ -55,7 +57,7 @@ const SupervisorSchoolPage = () => {
     };
 
     const handleLogout = () => {
-        axios.get('http://localhost:3000/school_supervisor/logout')
+        axios.get(apiUrl + '/school_supervisor/logout')
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")

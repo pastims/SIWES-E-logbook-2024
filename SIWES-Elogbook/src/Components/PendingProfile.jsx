@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 const PendingProfile = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [company, setCompany] = useState([]);
   const [industrySupervisor, setIndustrySupervisor] = useState([]);
   const [schoolSupervisor, setSchoolSupervisor] = useState([]);
@@ -24,7 +25,7 @@ const PendingProfile = () => {
 
 
   const fetchCompany = () => {
-    axios.get('http://localhost:3000/auth/pending_company')
+    axios.get(apiUrl + '/auth/pending_company')
     .then(result => {
       if(result.data.Status) {
         // console.log(result)
@@ -36,7 +37,7 @@ const PendingProfile = () => {
   }
 
   const fetchIndustrySupervisor = () => {
-    axios.get('http://localhost:3000/auth/pending_industry_supervisor')
+    axios.get(apiUrl + '/auth/pending_industry_supervisor')
     .then(result => {
       if(result.data.Status) {
         setIndustrySupervisor(result.data.Result)
@@ -47,7 +48,7 @@ const PendingProfile = () => {
   }
 
   const fetchSchoolSupervisor = () => {
-    axios.get('http://localhost:3000/auth/pending_school_supervisor')
+    axios.get(apiUrl + '/auth/pending_school_supervisor')
     .then(result => {
       if(result.data.Status) {
         setSchoolSupervisor(result.data.Result)
@@ -64,7 +65,7 @@ const PendingProfile = () => {
       phone_number: itemPhone
     };
     console.log(`Register clicked for item with Name: ${itemName}`);
-    axios.post('http://localhost:3000/auth/add_pending_company', pendingCompany)
+    axios.post(apiUrl + '/auth/add_pending_company', pendingCompany)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/company')
@@ -89,7 +90,7 @@ const PendingProfile = () => {
       category_id: 7,
     }
     console.log(`Register clicked for item with Name: ${name}`);
-    axios.post('http://localhost:3000/auth/add_pending_supervisorI', pendingSupervisorI)
+    axios.post(apiUrl + '/auth/add_pending_supervisorI', pendingSupervisorI)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/industry_supervisor')
@@ -112,7 +113,7 @@ const PendingProfile = () => {
       category_id: 6,
     }
     console.log(`Register clicked for item with Name: ${name}`);
-    axios.post('http://localhost:3000/auth/add_pending_supervisorS', pendingSupervisorS)
+    axios.post(apiUrl + '/auth/add_pending_supervisorS', pendingSupervisorS)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/school_supervisor')
@@ -132,7 +133,7 @@ const PendingProfile = () => {
 
   const handleDelete = (id, itemName) => {
     console.log(`Delete clicked for item with ID: ${id} and Name: ${itemName}`);
-    axios.delete('http://localhost:3000/auth/delete_pending_details/'+id)
+    axios.delete(apiUrl + '/auth/delete_pending_details/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

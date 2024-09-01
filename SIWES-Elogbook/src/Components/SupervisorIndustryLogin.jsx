@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 const SupervisorIndustryLogin = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -14,7 +15,7 @@ const SupervisorIndustryLogin = () => {
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post('http://localhost:3000/industry_supervisor/industry_supervisor_login', values)
+        axios.post(apiUrl + '/industry_supervisor/industry_supervisor_login', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)

@@ -5,6 +5,7 @@ import { useParams, useLocation } from 'react-router-dom'
 
 const SchoolSupervisorSearch = () => {
     const {id} = useParams();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const location = useLocation();
     const {id2} = location.state || {};
     const {compid} = location.state || {};
@@ -35,7 +36,7 @@ const SchoolSupervisorSearch = () => {
 
     useEffect(() => {
 
-        axios.get('http://localhost:3000/auth/student/'+id2)
+        axios.get(apiUrl + '/auth/student/'+id2)
         .then(result => {
             // console.log(result)
             setStudent({
@@ -53,7 +54,7 @@ const SchoolSupervisorSearch = () => {
             })
         }).catch(err => console.log(err))
 
-        axios.get('http://localhost:3000/student/get_company/'+ compid)
+        axios.get(apiUrl + '/student/get_company/'+ compid)
           .then(result => {
                 console.log(result)
                 console.log(result.data)
@@ -61,14 +62,14 @@ const SchoolSupervisorSearch = () => {
                 setCompany(result.data[0]);
           }).catch(err => console.log(err))
 
-        axios.get('http://localhost:3000/student/view_week/'+id2)
+        axios.get(apiUrl + '/student/view_week/'+id2)
         .then(result => {
             setWeek(result.data);
             // console.log(JSON.stringify(result.data))
         })
         .catch(err => console.log(err));
     
-        axios.get('http://localhost:3000/student/get_week_image/'+id2)
+        axios.get(apiUrl + '/student/get_week_image/'+id2)
         .then(result => {
             setWeekImages(result.data);
             console.log(JSON.stringify(result.data))
@@ -86,7 +87,7 @@ const SchoolSupervisorSearch = () => {
             student_id: ids,
             comment: com,
         }
-        axios.post('http://localhost:3000/school_supervisor/save_supcomment', values)
+        axios.post(apiUrl + '/school_supervisor/save_supcomment', values)
         .then(result => {
             if(result.data.Status) {
                 console.log(result.data)
@@ -113,7 +114,7 @@ const SchoolSupervisorSearch = () => {
                 <table className='container-fluid d-flex align-items-center border border-3 border-info mb-4 rounded p-3'>
                     <tbody>
                         <tr>
-                            <img src={`http://localhost:3000/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/>
+                            <img src={apiUrl + `/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/>
                             <td className='row flex-nowrap'>Name: {student.name}</td>
                             <td className='row flex-nowrap'>Matric Number: {student.matric_no}</td>
                             <td className='row flex-nowrap'>Email: {student.email}</td>
@@ -233,7 +234,7 @@ const SchoolSupervisorSearch = () => {
                     <tbody>
                             <tr>
                                 <td>Week {c.week_number}<br />
-                                <img src={`http://localhost:3000/Week_Pics/`+ c.week_image} className='week_image'/></td>
+                                <img src={apiUrl + `/Week_Pics/`+ c.week_image} className='week_image'/></td>
                             </tr>
                     </tbody>
             </table>

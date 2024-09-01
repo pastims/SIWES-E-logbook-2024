@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const StudentProfile = () => {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     //   <div>StudentProfile</div>
     //   const [student, setStudent] = useState([])
     //   const {id} = useParams()
     //   const navigate = useNavigate()
     //   useEffect(() => {
-    //       axios.get('http://localhost:3000/student'+id)
+    //       axios.get(apiUrl + '/student'+id)
     //       .then(result => {
     //           setEmployee(result.data[0])
     //       })
@@ -24,13 +25,13 @@ const StudentProfile = () => {
     const {id} = useParams()
 
     useEffect(() => {
-        axios.get('http://localhost:3000/student/dashboard/'+id)
+        axios.get(apiUrl + '/student/dashboard/'+id)
         .then(result => {
             setStudent(result.data[0])
         })
         .catch(err => console.log(err))
 
-        // axios.get('http://localhost:3000/student/get_company/'+student.id)
+        // axios.get(apiUrl + '/student/get_company/'+student.id)
         // .then(result => {
         //     console.log(result.data[0])
         //     setCompany(result.data[0])
@@ -43,7 +44,7 @@ const StudentProfile = () => {
         const formData = new FormData();
         formData.append('image', image.image);
     
-        axios.put('http://localhost:3000/student/student_image/' + id, formData)
+        axios.put(apiUrl + '/student/student_image/' + id, formData)
         .then(result => {
             if(result.data.Status) {
                 console.log('works')
@@ -61,7 +62,7 @@ const StudentProfile = () => {
       return (
       <div>
           <div className='d-flex justify-content-center flex-column align-items-center mt-3'>
-              <img src={`http://localhost:3000/Student_Pics/`+student.image} className='student_image'/>
+              <img src={apiUrl + `/Student_Pics/`+student.image} className='student_image'/>
               <div className='d-flex align-items-center flex-column mt-5'>
               <span className="fs-5 fw-bolder d-none d-sm-inline">
                 Hello {student.name}!

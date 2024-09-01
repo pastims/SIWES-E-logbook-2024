@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 const StudentLogin = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [values, setValues] = useState({
         matric_no: '',
         password: ''
@@ -17,7 +18,7 @@ const StudentLogin = () => {
         const rin = values.matric_no.replace(/\//g,'-');
         values.matric_no = rin;
         console.log(rin)
-        axios.post('http://localhost:3000/student/student_login', values)
+        axios.post(apiUrl + '/student/student_login', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)

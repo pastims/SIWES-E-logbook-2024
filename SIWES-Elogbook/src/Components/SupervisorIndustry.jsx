@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 
 const SupervisorIndustry = () => {
   const [employee, setEmployee] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
 //   const [company, setCompany] = useState([]);
   //   const navigate = useNavigate()
   
   useEffect(() => {
       axios
-      .get("http://localhost:3000/auth/industry_supervisor")
+      .get(apiUrl + "/auth/industry_supervisor")
       .then((result) => {
           if (result.data.Status) {
               setEmployee(result.data.Result);
@@ -21,7 +22,7 @@ const SupervisorIndustry = () => {
     .catch((err) => console.log(err));
     
     // axios
-    // .get("http://localhost:3000/auth/company")
+    // .get("https://siwes-e-logbook-2024.onrender.com/auth/company")
     // .then((result) => {
     //   if (result.data.Status) {
     //     setCompany(result.data.Result);
@@ -33,7 +34,7 @@ const SupervisorIndustry = () => {
 }, []);
 
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_employee/'+id)
+    axios.delete(apiUrl + '/auth/delete_employee/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

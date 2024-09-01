@@ -5,12 +5,13 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 
 const StudentDashboard = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [student, setStudent] = useState([])
     const {id} = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:3000/student/dashboard/'+id)
+        axios.get(apiUrl + '/student/dashboard/'+id)
         .then(result => {
             setStudent(result.data[0])
         })
@@ -18,7 +19,7 @@ const StudentDashboard = () => {
     }, [])
 
   const handleLogout = () => {
-    axios.get('http://localhost:3000/student/logout')
+    axios.get(apiUrl + '/student/logout')
     .then(result => {
       if(result.data.Status) { 
         localStorage.removeItem("valid")

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EditStudent = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const {id} = useParams()
     const [student, setStudent] = useState({
         name: "",
@@ -14,7 +15,7 @@ const EditStudent = () => {
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get('http://localhost:3000/auth/category')
+        axios.get(apiUrl + '/auth/category')
         .then(result => {
             if(result.data.Status) {
                 setCategory(result.data.Result);
@@ -23,7 +24,7 @@ const EditStudent = () => {
             }
         }).catch(err => console.log(err))
 
-        axios.get('http://localhost:3000/auth/student/'+id)
+        axios.get(apiUrl + '/auth/student/'+id)
         .then(result => {
             setStudent({
                 ...student,
@@ -38,7 +39,7 @@ const EditStudent = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put('http://localhost:3000/auth/edit_student/'+id, student)
+        axios.put(apiUrl + '/auth/edit_student/'+id, student)
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/student')

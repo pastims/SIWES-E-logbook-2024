@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const AddWeek = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const {id} = useParams()
     // const [week, setWeek] = useState({});
     const [logEntry, SetLogEntry] = useState({
@@ -21,7 +22,7 @@ const AddWeek = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        axios.post('http://localhost:3000/student/add_week/'+id, logEntry)
+        axios.post(apiUrl + '/student/add_week/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')

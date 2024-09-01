@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddStudent = () => {
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [student, setStudent] = useState({
     name: "",
     matric_no: "",
@@ -14,7 +15,7 @@ const AddStudent = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/category")
+      .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
           setCategory(result.data.Result);
@@ -35,7 +36,7 @@ const AddStudent = () => {
 
     // console.log(formData.entries());
 
-    axios.post('http://localhost:3000/auth/add_student', student)
+    axios.post(apiUrl + '/auth/add_student', student)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/student')
