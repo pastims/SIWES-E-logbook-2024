@@ -9,9 +9,8 @@ import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
 const app = express() 
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
 app.use(cors({
-    origin: [apiUrl],
+    origin: ["https://siwes-e-logbook-2024.vercel.app/"],
     methods: ['GET', 'POST', 'PUT', "DELETE"],
     credentials: true
 }))
