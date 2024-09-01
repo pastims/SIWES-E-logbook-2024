@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 const con = new Pool({
     host: "dpg-cr9ugnaj1k6c73bm5tmg-a",

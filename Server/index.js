@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
-const app = express() 
+const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors({
     origin: ["https://siwes-e-logbook-2024.vercel.app/"],
