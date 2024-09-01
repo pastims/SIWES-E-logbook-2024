@@ -1,0 +1,111 @@
+.loginPage {
+    /* background: url('Images/itf_hq-1.jpg'); */
+    overflow: auto;
+    min-height: 100vh;
+    background: linear-gradient(to top, rgba(28, 28, 28, 0.941), transparent), url('Images/itf_hq-1.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loginForm {
+    background-color: rgba(1, 32, 93, 0.6);
+    color: white;
+}
+
+ul li :hover {
+    background-color: gray;
+}
+
+.employee_image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.emp_det_image {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}
+
+.student_image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+.student_search_image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+.week_image {
+    width: 150px;
+    height: 150px;
+    border-radius: 5%;
+    border: 2px solid black;
+}
+
+.itf_logo {
+    width: 50px;
+    height: 50px;;
+}
+
+.nav-item-right:hover {
+    background-color: #fe6262;
+    color: #ffffff;
+}
+
+.nav-item-register:hover {
+    background-color: #34b628;
+    color: #ffffff;
+}
+  
+  .hero h1 {
+    font-size: 2rem;
+    margin-bottom: 3vw;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 2vw;
+  }
+  
+  .footer {
+    background-color: transparent;
+    padding: 10px 0;
+    text-align: center;
+    color: #333;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .follow-footer {
+    background-color: transparent;
+    padding: 10px 0;
+    text-align: center;
+    color: #333;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .start-footer {
+        background-color: transparent;
+        padding: 10px 0;
+        text-align: center;
+        color: #333;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+  }
