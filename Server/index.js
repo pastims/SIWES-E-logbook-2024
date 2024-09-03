@@ -5,7 +5,6 @@ import { EmployeeRouter } from "./Routes/EmployeeRoute.js";
 import { StudentRouter } from "./Routes/StudentRoute.js";
 import Jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import con from "../utils/db.js";
 import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
