@@ -11,7 +11,7 @@
 //     }
 // });
 
-import mysql from 'mysql'
+// import mysql from 'mysql'
 
 // const con = mysql.createConnection({
 //     host: "sql.freedb.tech",
@@ -20,20 +20,50 @@ import mysql from 'mysql'
 //     database: "freedb_siwes-elogbook"
 // })
 
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "siwes-elogbook"
-})
+// const con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "siwes-elogbook"
+// })
 
-con.connect(function(err) {
-    if(err) {
-        console.log("Conection Error", err.stack)
-    } else {
-        // console.log("Connected!")
-        console.log("Connected to Database")
+// con.connect(function(err) {
+//     if(err) {
+//         console.log("Conection Error", err.stack)
+//     } else {
+//         // console.log("Connected!")
+//         console.log("Connected to Database")
+//     }
+// })
+
+// export default con;
+
+
+
+//===================================
+
+import mysql from 'mysql2/promise';
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOST, 
+    user: process.env.DB_USERNAME, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DBNAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+const testConnection = async () => {
+    try {
+        const connection = await pool.getConnection();
+        console.log('Connected successfully');
+        connection.release(); // Release the connection back to the pool
+    } catch (err) {
+        console.error('Error connecting to the database:', err.message);
     }
-})
+};
 
-export default con;
+testConnection();
+
+export default pool;
