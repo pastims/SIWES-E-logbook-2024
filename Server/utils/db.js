@@ -42,9 +42,40 @@
 
 //===================================
 
-import mysql from 'mysql2/promise';
+// import mysql from 'mysql2/promise';
 
-const pool = mysql.createPool({
+// const con = mysql.createPool({
+//     host: process.env.DB_HOST, 
+//     user: process.env.DB_USERNAME, 
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DBNAME,
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     queueLimit: 0
+// });
+
+// const testConnection = async () => {
+//     try {
+//         const connection = await con.getConnection();
+//         console.log('Connected successfully');
+//         connection.release(); // Release the connection back to the con
+//     } catch (err) {
+//         console.error('Error connecting to the database:', err.message);
+//     }
+// };
+
+// testConnection();
+
+// export default con;
+
+
+
+//========================================
+
+import mysql from 'mysql2';
+
+// Create a con with callback API
+const con = mysql.createPool({
     host: process.env.DB_HOST, 
     user: process.env.DB_USERNAME, 
     password: process.env.DB_PASSWORD,
@@ -54,16 +85,5 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-const testConnection = async () => {
-    try {
-        const connection = await pool.getConnection();
-        console.log('Connected successfully');
-        connection.release(); // Release the connection back to the pool
-    } catch (err) {
-        console.error('Error connecting to the database:', err.message);
-    }
-};
-
-testConnection();
-
-export default pool;
+// Export the con
+export default con;
