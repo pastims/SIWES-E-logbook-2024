@@ -5,15 +5,17 @@ import { EmployeeRouter } from "./Routes/EmployeeRoute.js";
 import { StudentRouter } from "./Routes/StudentRoute.js";
 import Jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import con from "../utils/db.js";
 import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors({
-    origin: ["https://siwes-e-logbook-2024.vercel.app/"],
+    origin: ["https://siwes-e-logbook-2024.vercel.app"],
     methods: ['GET', 'POST', 'PUT', "DELETE"],
-    credentials: true
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    // credentials: true
 }))
 app.use(express.json())
 app.use(cookieParser())
