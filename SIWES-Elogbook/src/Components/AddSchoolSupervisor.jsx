@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const AddSchoolSupervisor = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -16,7 +17,7 @@ const AddSchoolSupervisor = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
@@ -38,7 +39,7 @@ const AddSchoolSupervisor = () => {
     formData.append('category_id', schoolSupervisor.category_id);
     formData.append('school', schoolSupervisor.school);
 
-    axios.post(apiUrl + '/auth/add_school_supervisor', schoolSupervisor)
+    axiosInstance.post(apiUrl + '/auth/add_school_supervisor', schoolSupervisor)
     .then(result => {
       console.log(result)
         if(result.data.Status) {

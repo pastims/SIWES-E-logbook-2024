@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from './AuthContext'
 import './style.css'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from '../axiosConfig'
 
 const SupervisorIndustryLogin = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -12,13 +14,19 @@ const SupervisorIndustryLogin = () => {
     })
     const [error, setError] = useState(null)
     const navigate = useNavigate()
+
+    const { login } = useContext(AuthContext);
+
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post(apiUrl + '/industry_supervisor/industry_supervisor_login', values)
+        axiosInstance.post(apiUrl + '/industry_supervisor/industry_supervisor_login', values)
         .then(result => {
             if(result.data.loginStatus) {
-                localStorage.setItem("valid", true)
+                localStorage.setItem("valid", true);
+                localStorage.setItem("token", result.data.token);
+                localStorage.setItem("role", result.data.role);
+                login(result.data.role)
                 navigate('/industry_supervisor_page/'+result.data.id)
             } else {
                 setError(result.data.Error)

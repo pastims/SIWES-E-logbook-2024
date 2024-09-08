@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const EditWeek = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -42,7 +43,7 @@ const EditWeek = () => {
   
       parameters.week_number = week.week_number;
       console.log(parameters);
-      axios.post(apiUrl + '/student/get_week/'+ id, parameters)
+      axiosInstance.post(apiUrl + '/student/get_week/'+ id, parameters)
       .then(result => {
         SetLogEntry({
           ...logEntry,
@@ -67,7 +68,7 @@ const EditWeek = () => {
         e.preventDefault()
         // SetLogEntry({...logEntry, week_number: week.week_number})
 
-        axios.post(apiUrl + '/student/edit_week/'+id, logEntry)
+        axiosInstance.post(apiUrl + '/student/edit_week/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')
@@ -90,7 +91,7 @@ const EditWeek = () => {
           <label htmlFor="week_number" className="form-label">
               Week Number
             </label>
-            <select name="week_number" id="week_number" className="form-select"
+            <select name="week_number" id="week_number" className="form-select" required
                 onChange={(e) => setWeek({...week, week_number: e.target.value})}>
                <option value="" defaultValue={true}>Select Week</option>
                <option value="1" >1</option>

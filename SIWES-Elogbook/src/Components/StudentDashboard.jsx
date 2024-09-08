@@ -2,35 +2,47 @@
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import axios from "axios";
+import { axiosInstance } from "../axiosConfig";
+// import axios from "axios";
 
 const StudentDashboard = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [student, setStudent] = useState([])
     const {id} = useParams()
     const navigate = useNavigate()
+    const [authorized, setAuthorized] = useState(false);
 
     useEffect(() => {
-        axios.get(apiUrl + '/student/dashboard/'+id)
+        axiosInstance.get(apiUrl + '/student/dashboard/'+id)
         .then(result => {
+            setAuthorized(true);
             setStudent(result.data[0])
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          setAuthorized(false);
+        })
     }, [])
 
   const handleLogout = () => {
-    axios.get(apiUrl + '/student/logout')
+    axiosInstance.get(apiUrl + '/student/logout')
     .then(result => {
       if(result.data.Status) { 
         localStorage.removeItem("valid")
+        localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("userRole")
+        localStorage.removeItem("token")
+        localStorage.removeItem("id")
         result.data.Status = false;
         navigate('/')
       }
     })
   }
+
   return (
     <div className="container-fluid">
-      <div className="row flex flex-wrap">
+      { authorized ? (
+        <div className="row flex flex-wrap">
         <div className="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-info d-none d-lg-block sideBar">
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <Link
@@ -152,6 +164,16 @@ const StudentDashboard = () => {
             <Outlet />
         </div>
       </div>
+      ) : (
+      // <p>You are not authorized to view this page, go to home</p>
+      <div className="container d-flex flex-column text-center align-items-center justify-content-center vh-100">
+        <div className=""><i className="bi bi-x text-danger m-0 p-0" style={{fontSize: "100px"}}></i></div>
+        <h1 className="text-danger mb-3">You are not authorized to view this page! <br /> Go back or login again to continue</h1>
+        <button type="button" className="btn bg-danger text-light rounded" onClick={handleLogout}>
+            Go to Home
+          </button>
+    </div>
+    )}
     </div>
   );
 };

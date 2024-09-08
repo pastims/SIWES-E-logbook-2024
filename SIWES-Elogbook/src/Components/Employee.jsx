@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const Employee = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -9,7 +10,7 @@ const Employee = () => {
 //   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/employee")
       .then((result) => {
         if (result.data.Status) {
@@ -22,7 +23,7 @@ const Employee = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(apiUrl + '/auth/delete_employee/'+id)
+    axiosInstance.delete(apiUrl + '/auth/delete_employee/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

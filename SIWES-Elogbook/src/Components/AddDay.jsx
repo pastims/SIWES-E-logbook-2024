@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from "../axiosConfig";
 
 const AddDay = () => {
     const {id} = useParams()
@@ -16,7 +17,7 @@ const AddDay = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(logEntry)
-        axios.post(apiUrl + '/student/add_daily/'+id, logEntry)
+        axiosInstance.post(apiUrl + '/student/add_daily/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')

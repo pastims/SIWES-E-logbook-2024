@@ -4,9 +4,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from "path";
-// import { timeStamp } from 'console';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+import { roleMiddleware } from '../middleware/roleMiddleware.js';
+import { idMiddleware } from '../middleware/idMiddleware.js';
+// import { getUser } from '../controller/urlController.js';
 
 const router = express.Router()
+
 
 router.post("/student_login", (req, res) => {
     const sql = "SELECT * from student Where matric_no = ?";
@@ -20,11 +24,11 @@ router.post("/student_login", (req, res) => {
                 const matric_no = result[0].matric_no;
                 const token = jwt.sign(
                     { role: "student", matric_no: matric_no, id: result[0].id },
-                    "jwt_secret_key",
-                    { expiresIn: "1d" }
+                    "4781SIWES9912sjad34&*@",
+                    { expiresIn: "1h" }
                 );
                 res.cookie('token', token)
-                return res.json({ loginStatus: true, id: result[0].id });
+                return res.json({ loginStatus: true, id: result[0].id, role: 'student', token: token });
             }
         })
         
@@ -34,8 +38,20 @@ router.post("/student_login", (req, res) => {
     });
   });
 
+  
+  router.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    return res.json({Status: true})
+  })
 
-  router.get('/dashboard/:id', (req, res) => {
+  
+// router.use(checkRole('student'));
+router.use(authMiddleware, roleMiddleware('student'));
+
+// const verifyToken = authMiddleware;
+// idMiddleware(id)
+
+  router.get(`/dashboard/:id`, idMiddleware, (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM student where id = ?"
     con.query(sql, [id], (err, result) => {
@@ -43,6 +59,15 @@ router.post("/student_login", (req, res) => {
         return res.json(result)
     })
   })
+
+  
+router.get('/company', (req, res) => {
+    const sql = "SELECT * FROM company";
+    con.query(sql, (err,result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+            return res.json({Status: true, Result: result})
+    })
+})
 
   router.get('/logbook/:id', (req, res) => {
     const id = req.params.id;
@@ -284,10 +309,5 @@ router.get('/get_company/:id', (req, res) => {
     })
   })
 
-
-  router.get('/logout', (req, res) => {
-    res.clearCookie('token')
-    return res.json({Status: true})
-  })
 
   export {router as StudentRouter}

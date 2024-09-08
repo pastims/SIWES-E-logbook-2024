@@ -1,7 +1,8 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const StudentProfile = () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -25,7 +26,7 @@ const StudentProfile = () => {
     const {id} = useParams()
 
     useEffect(() => {
-        axios.get(apiUrl + '/student/dashboard/'+id)
+        axiosInstance.get(apiUrl + '/student/dashboard/'+id)
         .then(result => {
             setStudent(result.data[0])
         })
@@ -44,7 +45,7 @@ const StudentProfile = () => {
         const formData = new FormData();
         formData.append('image', image.image);
     
-        axios.put(apiUrl + '/student/student_image/' + id, formData)
+        axiosInstance.put(apiUrl + '/student/student_image/' + id, formData)
         .then(result => {
             if(result.data.Status) {
                 console.log('works')

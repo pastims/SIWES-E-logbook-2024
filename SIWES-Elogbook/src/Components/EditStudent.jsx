@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const EditStudent = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -15,7 +16,7 @@ const EditStudent = () => {
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get(apiUrl + '/auth/category')
+        axiosInstance.get(apiUrl + '/auth/category')
         .then(result => {
             if(result.data.Status) {
                 setCategory(result.data.Result);
@@ -24,7 +25,7 @@ const EditStudent = () => {
             }
         }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/auth/student/'+id)
+        axiosInstance.get(apiUrl + '/auth/student/'+id)
         .then(result => {
             setStudent({
                 ...student,
@@ -39,7 +40,7 @@ const EditStudent = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put(apiUrl + '/auth/edit_student/'+id, student)
+        axiosInstance.put(apiUrl + '/auth/edit_student/'+id, student)
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/student')

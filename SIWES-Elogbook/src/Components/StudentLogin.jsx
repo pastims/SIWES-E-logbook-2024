@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from './AuthContext'
 import './style.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from '../axiosConfig'
 
 const StudentLogin = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -11,19 +13,29 @@ const StudentLogin = () => {
         password: ''
     })
     const [error, setError] = useState(null)
+    const [userRole, setUserRole] = useState(null);
     const navigate = useNavigate()
+
+    const { login } = useContext(AuthContext);
+
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
         const rin = values.matric_no.replace(/\//g,'-');
         values.matric_no = rin;
         console.log(rin)
-        axios.post(apiUrl + '/student/student_login', values)
+        axiosInstance.post(apiUrl + '/student/student_login', values)
         .then(result => {
             if(result.data.loginStatus) {
-                localStorage.setItem("valid", true)
-                // navigate('/student_dashboard/')
+                localStorage.setItem("valid", true);
+                localStorage.setItem("token", result.data.token);
+                localStorage.setItem("role", result.data.role);
+                // console.log(result.data)
+                login(result.data.role);
+                setUserRole(result.data.role)
+                const token = result.data.token;
                 navigate('/student_dashboard/'+result.data.id)
+                // navigate(`/student_dashboard/${token}`)
             } else {
                 setError(result.data.Error)
             }

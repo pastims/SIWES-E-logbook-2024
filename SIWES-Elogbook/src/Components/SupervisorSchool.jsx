@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 // import { Link } from "react-router-dom";
 
 const SupervisorSchool = () => {
@@ -9,7 +10,7 @@ const SupervisorSchool = () => {
   // const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/school_supervisor")
       .then((result) => {
         if (result.data.Status) {

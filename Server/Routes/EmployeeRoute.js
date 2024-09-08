@@ -1,9 +1,11 @@
 import express from 'express'
 import con from "../utils/db.js";
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+// import { checkRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router()
+
 
 router.post("/employee_login", (req, res) => {
     const sql = "SELECT * from employee Where email = ?";
@@ -17,11 +19,11 @@ router.post("/employee_login", (req, res) => {
                 const email = result[0].email;
                 const token = jwt.sign(
                     { role: "employee", email: email, id: result[0].id },
-                    "jwt_secret_key",
-                    { expiresIn: "1d" }
+                    "4781SIWES9912sjad34&*@",
+                    { expiresIn: "1h" }
                 );
                 res.cookie('token', token)
-                return res.json({ loginStatus: true, id: result[0].id });
+                return res.json({ loginStatus: true, id: result[0].id, role: "employee", token: token });
             }
         })
         
@@ -31,15 +33,7 @@ router.post("/employee_login", (req, res) => {
     });
   });
 
-  router.get('/detail/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "SELECT * FROM employee where id = ?"
-    con.query(sql, [id], (err, result) => {
-        if(err) return res.json({Status: false});
-        return res.json(result)
-    })
-  })
-
+  
   router.get('/logout', (req, res) => {
     res.clearCookie('token')
     return res.json({Status: true})
@@ -107,5 +101,25 @@ router.post('/submit_industry_supervisor', (req, res) => {
         })
     })
 })
+
+router.get('/company', (req, res) => {
+    const sql = "SELECT * FROM company";
+    con.query(sql, (err,result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+            return res.json({Status: true, Result: result})
+    })
+})
+
+// router.use(checkRole('employee'));
+
+  router.get('/detail/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM employee where id = ?"
+    con.query(sql, [id], (err, result) => {
+        if(err) return res.json({Status: false});
+        return res.json(result)
+    })
+  })
+
 
   export {router as EmployeeRouter}

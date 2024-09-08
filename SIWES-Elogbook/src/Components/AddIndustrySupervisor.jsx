@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const AddIndustrySupervisor = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -18,7 +19,7 @@ const AddIndustrySupervisor = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
@@ -31,7 +32,7 @@ const AddIndustrySupervisor = () => {
   }, []);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/company")
       .then((result) => {
         if (result.data.Status) {
@@ -54,7 +55,7 @@ const AddIndustrySupervisor = () => {
     formData.append('company_id', industrySupervisor.company_id);
     formData.append('position', industrySupervisor.position);
 
-    axios.post(apiUrl + '/auth/add_industry_supervisor', industrySupervisor)
+    axiosInstance.post(apiUrl + '/auth/add_industry_supervisor', industrySupervisor)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/industry_supervisor')

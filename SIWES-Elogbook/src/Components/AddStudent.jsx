@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const AddStudent = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -14,7 +15,7 @@ const AddStudent = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
@@ -36,7 +37,7 @@ const AddStudent = () => {
 
     // console.log(formData.entries());
 
-    axios.post(apiUrl + '/auth/add_student', student)
+    axiosInstance.post(apiUrl + '/auth/add_student', student)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/student')

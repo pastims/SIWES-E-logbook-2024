@@ -1,7 +1,8 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const IndustrySupervisorSearch = () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -36,7 +37,7 @@ const IndustrySupervisorSearch = () => {
 
     useEffect(() => {
 
- axios.get(apiUrl + '/auth/student/'+id2)
+ axiosInstance.get(apiUrl + '/industry_supervisor/student/'+id2)
         .then(result => {
             // console.log(result)
             setStudent({
@@ -54,7 +55,7 @@ const IndustrySupervisorSearch = () => {
             })
         }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/student/get_company/'+ compid)
+        axiosInstance.get(apiUrl + '/industry_supervisor/get_company/'+ compid)
           .then(result => {
                 console.log(result)
                 console.log(result.data)
@@ -62,10 +63,10 @@ const IndustrySupervisorSearch = () => {
                 setCompany(result.data[0]);
           }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/student/view_week/'+id2)
+        axiosInstance.get(apiUrl + '/industry_supervisor/view_week/'+id2)
         .then(result => {
             setWeek(result.data);
-            console.log(JSON.stringify(result.data))
+            // console.log(JSON.stringify(result.data))
         })
         .catch(err => console.log(err));
     }, [])
@@ -78,7 +79,7 @@ const IndustrySupervisorSearch = () => {
             week_no: no,
             comment: com,
         }
-        axios.post(apiUrl + '/industry_supervisor/save_supcomment', values)
+        axiosInstance.post(apiUrl + '/industry_supervisor/save_supcomment', values)
         .then(result => {
             if(result.data.Status) {
                 console.log(result.data)
@@ -102,7 +103,7 @@ const IndustrySupervisorSearch = () => {
                 <table className='container-fluid d-flex align-items-center border border-3 border-info mb-4 rounded p-3'>
                     <tbody>
                         <tr>
-                            <img src={apiUrl + `/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/>
+                            <td className='row flex-nowrap'><div><img src={apiUrl + `/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/></div></td>
                             <td className='row flex-nowrap'>Name: {student.name}</td>
                             <td className='row flex-nowrap'>Matric Number: {student.matric_no}</td>
                             <td className='row flex-nowrap'>Email: {student.email}</td>
@@ -172,7 +173,7 @@ const IndustrySupervisorSearch = () => {
                                 className="form-control rounded-0"
                                 id="sup-comment"
                                 placeholder="Enter Week's Comment"
-                                value={c.industry_supervisor_comment}
+                                value={c.industry_supervisor_comment || ''}
                                 maxLength="150"
                                 onChange={(e) =>
                                     setSupComment({...supComment, comment: e.target.value })

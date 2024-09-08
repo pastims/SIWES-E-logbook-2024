@@ -1,14 +1,15 @@
 // import React from 'react'
-import axios from "axios"
+// import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { axiosInstance } from "../axiosConfig";
 
 const Company = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [company, setCompany] = useState([])
 
   useEffect(() => {
-    axios.get(apiUrl + '/auth/company')
+    axiosInstance.get(apiUrl + '/auth/company')
     .then(result => {
         if(result.data.Status) {
           setCompany(result.data.Result);

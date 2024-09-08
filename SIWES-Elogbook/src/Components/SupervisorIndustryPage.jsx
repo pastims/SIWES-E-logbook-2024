@@ -1,11 +1,16 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Outlet, Link } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const SupervisorIndustryPage = () => {
       
     const {id} = useParams()
+
+    // const token = localStorage.getItem('authToken');
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [supervisorI, setSupervisorI] = useState([])
     const [searchStudent, setSearchStudent] = useState({
@@ -17,15 +22,20 @@ const SupervisorIndustryPage = () => {
         matric_no: "",
     })
     const [company, setCompany] = useState([])
+    const [authorized, setAuthorized] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(apiUrl + '/industry_supervisor/get_detail/'+id)
+        axiosInstance.get(apiUrl + '/industry_supervisor/get_detail/'+id)
         .then(result => {
+            setAuthorized(true);
             setSupervisorI(result.data[0]);
             setback(get_company(result.data[0].company_id));
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err);
+          if (err == 'Internal Server Error') {setAuthorized(false)}
+        })
     }, []);
 
     function setback(callback, message) {
@@ -33,12 +43,10 @@ const SupervisorIndustryPage = () => {
     }
       
     const get_company = (message) => {
-      // const comp_id = supervisorI.company_id;
-      // console.log(comp_id);
-      axios.get(apiUrl + '/student/get_company/'+ message)
+      axiosInstance.get(apiUrl + '/industry_supervisor/get_company/'+ message)
             .then(result => {
                   console.log(result)
-                  console.log(result.data)
+                  // console.log(result.data)
                   // console.log(result.data.Result)
                   setCompany(result.data[0]);
             }).catch(err => console.log(err))
@@ -48,7 +56,7 @@ const SupervisorIndustryPage = () => {
         e.preventDefault();
         // search student
         let st_id;
-        axios.post(apiUrl + '/industry_supervisor/search_student', searchStudent)
+        axiosInstance.post(apiUrl + '/industry_supervisor/search_student', searchStudent)
             .then(result => {
                 if (result.data.Status) {
                     st_id = result.data.Result[0].id;
@@ -75,10 +83,14 @@ const SupervisorIndustryPage = () => {
 };
 
     const handleLogout = () => {
-        axios.get(apiUrl + '/industry_supervisor/logout')
+        axiosInstance.get(apiUrl + '/industry_supervisor/logout')
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")
+            localStorage.removeItem("isAuthenticated")
+            localStorage.removeItem("userRole")
+            localStorage.removeItem("token")
+            localStorage.removeItem("id")
             navigate('/')
           }
         }).catch(err => console.log(err))
@@ -87,7 +99,8 @@ const SupervisorIndustryPage = () => {
     
   return (
     <div>
-        <div className="p-2 d-flex justify-content-center shadow mb-4">
+        { authorized ? (
+        <div><div className="p-2 d-flex justify-content-center shadow mb-4">
             <h4>Industry Supervisor Dashboard</h4>
         </div>
             <h6 className='row mb-3 bg-success text-light p-2 m-3'>Company: {company.name}</h6>
@@ -141,7 +154,17 @@ const SupervisorIndustryPage = () => {
                 <h4>Search Results</h4>
             </div>
             <Outlet />
-        </div>
+        </div></div>
+      ) : (
+      // <p>You are not authorized to view this page, go to home</p>
+      <div className="container d-flex flex-column text-center align-items-center justify-content-center vh-100">
+        <div className=""><i className="bi bi-x text-danger m-0 p-0" style={{fontSize: "100px"}}></i></div>
+        <h1 className="text-danger mb-3">You are not authorized to view this page! <br /> Go back or login again to continue</h1>
+        <button type="button" className="btn bg-danger text-light rounded" onClick={handleLogout}>
+            Go to Home
+          </button>
+    </div>
+    )}
     </div>
   )
 }

@@ -11,7 +11,7 @@
 //     }
 // });
 
-// import mysql from 'mysql'
+import mysql from 'mysql'
 
 // const con = mysql.createConnection({
 //     host: "sql.freedb.tech",
@@ -20,23 +20,23 @@
 //     database: "freedb_siwes-elogbook"
 // })
 
-// const con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     database: "siwes-elogbook"
-// })
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "siwes-elogbook"
+})
 
-// con.connect(function(err) {
-//     if(err) {
-//         console.log("Conection Error", err.stack)
-//     } else {
-//         // console.log("Connected!")
-//         console.log("Connected to Database")
-//     }
-// })
+con.connect(function(err) {
+    if(err) {
+        console.log("Conection Error", err.stack)
+    } else {
+        // console.log("Connected!")
+        console.log("Connected to Database")
+    }
+})
 
-// export default con;
+export default con;
 
 
 
@@ -71,19 +71,21 @@
 
 
 //========================================
+//finally worked
 
-import mysql from 'mysql2';
 
-// Create a con with callback API
-const con = mysql.createPool({
-    host: process.env.DB_HOST, 
-    user: process.env.DB_USERNAME, 
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DBNAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+// import mysql from 'mysql2';
 
-// Export the con
-export default con;
+// // Create a con with callback API
+// const con = mysql.createPool({
+//     host: process.env.DB_HOST, 
+//     user: process.env.DB_USERNAME, 
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DBNAME,
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     queueLimit: 0
+// });
+
+// // Export the con
+// export default con;

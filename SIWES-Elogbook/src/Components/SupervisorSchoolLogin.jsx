@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from './AuthContext'
 import './style.css'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from '../axiosConfig'
 
 const SupervisorSchoolLogin = () => {
     const [values, setValues] = useState({
@@ -10,15 +12,21 @@ const SupervisorSchoolLogin = () => {
         password: ''
     })
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    const { login } = useContext(AuthContext);
+
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post(apiUrl + '/school_supervisor/school_supervisor_login', values)
+        axiosInstance.post(apiUrl + '/school_supervisor/school_supervisor_login', values)
         .then(result => {
             if(result.data.loginStatus) {
-                localStorage.setItem("valid", true)
+                localStorage.setItem("valid", true);
+                localStorage.setItem("token", result.data.token);
+                localStorage.setItem("role", result.data.role);
+                login(result.data.role);
                 navigate('/school_supervisor_page/'+result.data.id)
             } else {
                 setError(result.data.Error)

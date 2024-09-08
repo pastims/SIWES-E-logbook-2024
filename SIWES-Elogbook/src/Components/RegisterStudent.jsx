@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const RegisterStudent = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -21,7 +22,7 @@ const RegisterStudent = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(apiUrl + '/student/dashboard/'+id)
+    axiosInstance.get(apiUrl + '/student/dashboard/'+id)
     .then(result => {
         setStudent(result.data[0])
     })
@@ -29,8 +30,8 @@ const RegisterStudent = () => {
 }, [])
 
   useEffect(() => {
-    axios
-      .get(apiUrl + "/auth/company")
+    axiosInstance
+      .get(apiUrl + "/student/company")
       .then((result) => {
         if (result.data.Status) {
           setCompany(result.data.Result);
@@ -54,7 +55,7 @@ const RegisterStudent = () => {
     formData.append('date_start', student.date_start);
     // formData.append('image', student.image);
 
-    axios.put(apiUrl + '/student/register_student/' + id, student)
+    axiosInstance.put(apiUrl + '/student/register_student/' + id, student)
     .then(result => {
         if(result.data.Status) {
             navigate('/student_dashboard/' + id)

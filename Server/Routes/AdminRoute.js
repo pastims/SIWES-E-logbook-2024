@@ -4,8 +4,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from "path";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { roleMiddleware } from "../middleware/roleMiddleware.js";
 
 const router = express.Router()
+
 
 router.post("/adminlogin", (req, res) => {
     const sql = "SELECT * from admin Where email = ? and password = ?";
@@ -15,20 +18,36 @@ router.post("/adminlogin", (req, res) => {
         const email = result[0].email;
         const token = jwt.sign(
           { role: "admin", email: email, id: result[0].id },
-          "jwt_secret_key",
-          { expiresIn: "1d" }
+        //   { role: "admin", email: email, id: result[0].id },
+        //   "jwt_secret_key", //3812932sjad34&*@ -to use
+          "4781SIWES9912sjad34&*@",
+        //   process.env.JWT_SECRET,
+          { expiresIn: "1h" }
         );
         res.cookie('token', token)
-        return res.json({ loginStatus: true });
+        const tryTk = token;
+        return res.json({ loginStatus: true, role: "admin", token: token });
       } else {
-          return res.json({ loginStatus: false, Error:"wrong email or password" });
+          return res.json({ loginStatus: false, Error:"wrong email or password", token: token });
       }
     });
 });
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    return res.json({Status: true})
+})
+
+
+
+//role protected accss
+router.use(authMiddleware, roleMiddleware('admin'));
+// , authMiddleware, checkRole(['admin'])
   
 
 router.get('/category', (req, res) => {
     const sql = "SELECT * FROM category";
+    // con.query(sql, authMiddleware, checkRole(['admin']), (err,result) => {
     con.query(sql, (err,result) => {
         if(err) return res.json({Status: false, Error: "Query Error"})
             return res.json({Status: true, Result: result})
@@ -495,11 +514,5 @@ router.delete('/delete_pending_details/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
-
-router.get('/logout', (req, res) => {
-    res.clearCookie('token')
-    return res.json({Status: true})
-})
-
 
 export {router as adminRouter}

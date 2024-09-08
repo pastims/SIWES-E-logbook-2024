@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from "../axiosConfig";
 // useEffect
 
 const Start = () => {
@@ -10,9 +11,9 @@ const Start = () => {
     
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get(apiUrl + '/verify')
+    axiosInstance.get(apiUrl + '/verify')
     .then(result => {
-      console.log(result)
+      // console.log(result)
       if(result.data.Status) {
         if(result.data.role === "admin") {
           navigate('/dashboard')

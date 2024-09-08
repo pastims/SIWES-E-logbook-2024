@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const Student = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -9,7 +10,7 @@ const Student = () => {
 //   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/student")
       .then((result) => {
         if (result.data.Status) {
@@ -23,7 +24,7 @@ const Student = () => {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(apiUrl + '/auth/delete_student/'+id)
+    axiosInstance.delete(apiUrl + '/auth/delete_student/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

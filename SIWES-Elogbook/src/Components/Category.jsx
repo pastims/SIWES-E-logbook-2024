@@ -1,14 +1,15 @@
 // import React from 'react'
-import axios from "axios"
+// import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { axiosInstance } from "../axiosConfig";
 
 const Category = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const [category, setCategory] = useState([])
 
   useEffect(() => {
-    axios.get(apiUrl + '/auth/category')
+    axiosInstance.get(apiUrl + '/auth/category')
     .then(result => {
         if(result.data.Status) {
           setCategory(result.data.Result);

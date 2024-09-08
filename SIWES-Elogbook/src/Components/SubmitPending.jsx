@@ -40,7 +40,7 @@ const SubmitPending = () => {
 
     useEffect(() => {
       axios
-        .get(apiUrl + "/auth/company")
+        .get(apiUrl + "/employee/company")
         .then((result) => {
           if (result.data.Status) {
             setCompanyInRecord(result.data.Result);

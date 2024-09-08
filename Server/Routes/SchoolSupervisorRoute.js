@@ -4,9 +4,12 @@ import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import multer from 'multer';
 import path from "path";
-// import { timeStamp } from 'console';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+import { roleMiddleware } from '../middleware/roleMiddleware.js';
+import { idMiddleware } from '../middleware/idMiddleware.js';
 
 const router = express.Router()
+
 
 router.post("/school_supervisor_login", (req, res) => {
     const sql = "SELECT * from school_supervisor Where staff_id = ?";
@@ -20,11 +23,11 @@ router.post("/school_supervisor_login", (req, res) => {
                 const staff_id = result[0].staff_id;
                 const token = jwt.sign(
                     { role: "school_supervisor", staff_id: staff_id, id: result[0].id },
-                    "jwt_secret_key",
-                    { expiresIn: "1d" }
+                    "4781SIWES9912sjad34&*@",
+                    { expiresIn: "1h" }
                 );
                 res.cookie('token', token)
-                return res.json({ loginStatus: true, id: result[0].id });
+                return res.json({ loginStatus: true, id: result[0].id, role: "school_supervisor", token: token });
             }
         })
         
@@ -34,8 +37,18 @@ router.post("/school_supervisor_login", (req, res) => {
     });
   });
 
+  
+  router.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    return res.json({Status: true})
+  })
 
-  router.get('/get_detail/:id', (req, res) => {
+  
+// router.use(checkRole('school_supervisor'));
+router.use(authMiddleware, roleMiddleware('school_supervisor'));
+
+
+  router.get('/get_detail/:id', idMiddleware, (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM school_supervisor where id = ?"
     con.query(sql, [id], (err, result) => {
@@ -43,6 +56,47 @@ router.post("/school_supervisor_login", (req, res) => {
         return res.json(result)
     })
   })
+
+  router.get('/get_company/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM company where id = ?"
+    con.query(sql, [id], (err, result) => {
+        if(err) return res.json({Status: false});
+        return res.json(result)
+    })
+  })
+
+  
+router.get('/student/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM student WHERE id = ?";
+  con.query(sql,[id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"})
+      return res.json({Status: true, Result: result})
+  })
+})
+
+
+router.get('/view_week/:id', (req, res) => {
+  const id = req.params.id;
+  // const sql = `SELECT (week_number, monday, tuesday, wednesday, thursday, friday, saturday, week_project, student_id) 
+  const sql = "SELECT * FROM logbook Where student_id = ?"
+  con.query(sql, [id], (err, result) => {
+      if(err) return res.json({Status: false});
+      return res.json(result)
+  })
+})
+
+router.get('/get_week_image/:id', (req, res) => {
+  const id = req.params.id;
+  // const sql = `SELECT (week_number, monday, tuesday, wednesday, thursday, friday, saturday, week_project, student_id) 
+  // const sql = "SELECT (week_number, week_image) FROM logbook Where student_id = ?"
+  const sql = "SELECT * FROM logbook Where student_id = ?"
+  con.query(sql, [id], (err, result) => {
+      if(err) return res.json({Status: false});
+      return res.json(result)
+  })
+})
 
   router.post('/search_student', (req, res) => {
     const matric_no = req.body.matric_no;
@@ -77,12 +131,5 @@ router.post("/school_supervisor_login", (req, res) => {
         return res.json({Status: true})
     })
 })
-
-
-
-  router.get('/logout', (req, res) => {
-    res.clearCookie('token')
-    return res.json({Status: true})
-  })
 
   export {router as SchoolSupervisorRouter}

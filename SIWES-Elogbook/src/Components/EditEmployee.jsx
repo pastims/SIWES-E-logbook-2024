@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const EditEmployee = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -16,7 +17,7 @@ const EditEmployee = () => {
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get(apiUrl + '/auth/category')
+        axiosInstance.get(apiUrl + '/auth/category')
         .then(result => {
             if(result.data.Status) {
                 setCategory(result.data.Result);
@@ -25,7 +26,7 @@ const EditEmployee = () => {
             }
         }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/auth/employee/'+id)
+        axiosInstance.get(apiUrl + '/auth/employee/'+id)
         .then(result => {
             setEmployee({
                 ...employee,
@@ -41,7 +42,7 @@ const EditEmployee = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put(apiUrl + '/auth/edit_employee/'+id, employee)
+        axiosInstance.put(apiUrl + '/auth/edit_employee/'+id, employee)
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/employee')

@@ -1,7 +1,8 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 
 const AddWeekImage = () => {
@@ -22,7 +23,7 @@ const AddWeekImage = () => {
         formData.append('week_no', WeekImage.week_no);
         formData.append('image', WeekImage.image);
     
-        axios.put(apiUrl + '/student/add_week_image/' + id, formData)
+        axiosInstance.put(apiUrl + '/student/add_week_image/' + id, formData)
         .then(result => {
             if(result.data.Status) {
                 console.log('works')

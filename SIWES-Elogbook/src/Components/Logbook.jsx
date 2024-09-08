@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Outlet, Link } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const Logbook = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -9,7 +10,7 @@ const Logbook = () => {
   logbook;
 
   useEffect(() => {
-    axios.get(apiUrl + '/student/logbook/'+id)
+    axiosInstance.get(apiUrl + '/student/logbook/'+id)
     .then(result => {
         setLogbook(result.data[0])
     })

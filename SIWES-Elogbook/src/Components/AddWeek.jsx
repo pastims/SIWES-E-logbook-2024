@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const AddWeek = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -22,7 +23,7 @@ const AddWeek = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        axios.post(apiUrl + '/student/add_week/'+id, logEntry)
+        axiosInstance.post(apiUrl + '/student/add_week/'+id, logEntry)
         .then(result => {
             if(result.data.Status) {
                 navigate('/student_dashboard/'+id+'/logbook/view_week')

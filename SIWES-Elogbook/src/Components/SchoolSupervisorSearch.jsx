@@ -1,7 +1,8 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 const SchoolSupervisorSearch = () => {
     const {id} = useParams();
@@ -9,7 +10,7 @@ const SchoolSupervisorSearch = () => {
     const location = useLocation();
     const {id2} = location.state || {};
     const {compid} = location.state || {};
-    console.log(compid);
+    // console.log(compid);
     id;
     // console.log(id);
     // console.log(id2);
@@ -36,7 +37,7 @@ const SchoolSupervisorSearch = () => {
 
     useEffect(() => {
 
-        axios.get(apiUrl + '/auth/student/'+id2)
+        axiosInstance.get(apiUrl + '/school_supervisor/student/'+id2)
         .then(result => {
             // console.log(result)
             setStudent({
@@ -54,7 +55,7 @@ const SchoolSupervisorSearch = () => {
             })
         }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/student/get_company/'+ compid)
+        axiosInstance.get(apiUrl + '/school_supervisor/get_company/'+ compid)
           .then(result => {
                 console.log(result)
                 console.log(result.data)
@@ -62,17 +63,17 @@ const SchoolSupervisorSearch = () => {
                 setCompany(result.data[0]);
           }).catch(err => console.log(err))
 
-        axios.get(apiUrl + '/student/view_week/'+id2)
+        axiosInstance.get(apiUrl + '/school_supervisor/view_week/'+id2)
         .then(result => {
             setWeek(result.data);
             // console.log(JSON.stringify(result.data))
         })
         .catch(err => console.log(err));
     
-        axios.get(apiUrl + '/student/get_week_image/'+id2)
+        axiosInstance.get(apiUrl + '/school_supervisor/get_week_image/'+id2)
         .then(result => {
             setWeekImages(result.data);
-            console.log(JSON.stringify(result.data))
+            // console.log(JSON.stringify(result.data))
         })
         .catch(err => console.log(err));
     }, [])
@@ -87,7 +88,7 @@ const SchoolSupervisorSearch = () => {
             student_id: ids,
             comment: com,
         }
-        axios.post(apiUrl + '/school_supervisor/save_supcomment', values)
+        axiosInstance.post(apiUrl + '/school_supervisor/save_supcomment', values)
         .then(result => {
             if(result.data.Status) {
                 console.log(result.data)
@@ -100,9 +101,6 @@ const SchoolSupervisorSearch = () => {
     }
           
 
-          
-
-
   return (
       
       <div>
@@ -114,7 +112,7 @@ const SchoolSupervisorSearch = () => {
                 <table className='container-fluid d-flex align-items-center border border-3 border-info mb-4 rounded p-3'>
                     <tbody>
                         <tr>
-                            <img src={apiUrl + `/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/>
+                            <td className='row flex-nowrap'><div><img src={apiUrl + `/Student_Pics/`+student.image} className='student_search_image row flex-nowrap'/></div></td>
                             <td className='row flex-nowrap'>Name: {student.name}</td>
                             <td className='row flex-nowrap'>Matric Number: {student.matric_no}</td>
                             <td className='row flex-nowrap'>Email: {student.email}</td>

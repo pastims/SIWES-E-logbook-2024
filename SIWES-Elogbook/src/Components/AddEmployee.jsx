@@ -1,6 +1,7 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const AddEmployee = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -17,7 +18,7 @@ const AddEmployee = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(apiUrl + "/auth/category")
       .then((result) => {
         if (result.data.Status) {
@@ -40,7 +41,7 @@ const AddEmployee = () => {
     formData.append('image', employee.image);
     formData.append('category_id', employee.category_id);
 
-    axios.post(apiUrl + '/auth/add_employee', formData)
+    axiosInstance.post(apiUrl + '/auth/add_employee', formData)
     .then(result => {
         if(result.data.Status) {
             navigate('/dashboard/employee')

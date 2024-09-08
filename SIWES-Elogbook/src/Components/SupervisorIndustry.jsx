@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../axiosConfig";
 
 const SupervisorIndustry = () => {
   const [employee, setEmployee] = useState([]);
@@ -10,7 +11,7 @@ const SupervisorIndustry = () => {
   //   const navigate = useNavigate()
   
   useEffect(() => {
-      axios
+      axiosInstance
       .get(apiUrl + "/auth/industry_supervisor")
       .then((result) => {
           if (result.data.Status) {
@@ -34,7 +35,7 @@ const SupervisorIndustry = () => {
 }, []);
 
   const handleDelete = (id) => {
-    axios.delete(apiUrl + '/auth/delete_employee/'+id)
+    axiosInstance.delete(apiUrl + '/auth/delete_employee/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()

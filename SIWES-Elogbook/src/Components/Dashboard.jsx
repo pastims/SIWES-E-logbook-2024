@@ -1,20 +1,29 @@
 // import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import axios from "axios";
+import { axiosInstance } from "../axiosConfig";
+// import axios from "axios";
 
 const Dashboard = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate()
-  axios.defaults.withCredentials = true
+  axiosInstance.defaults.withCredentials = true
+
   const handleLogout = () => {
-    axios.get(apiUrl + '/auth/logout')
+    console.log('Log out Clicked!')
+    axiosInstance.get(apiUrl + '/auth/logout')
     .then(result => {
       if(result.data.Status) { 
+        console.log('Log out Clicked and worked!')
         localStorage.removeItem("valid")
+        localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("userRole")
+        localStorage.removeItem("token")
+        localStorage.removeItem("id")
         navigate('/')
       }
     })
+    .catch((err) => console.log(err))
   }
   return (
     <div className="container-fluid">

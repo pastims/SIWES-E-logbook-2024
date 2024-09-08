@@ -45,6 +45,7 @@ import AddWeekImage from './Components/AddWeekImage'
 import AddDay from './Components/AddDay'
 import SubmitPending from './Components/SubmitPending'
 import PendingProfile from './Components/PendingProfile'
+import Unauthorized from './Components/Unauthorized'
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Start />}></Route>
       <Route path='/start' element={<Start />}></Route>
+      <Route path='/unauthorized' element={<Unauthorized />}></Route>
       <Route path='/adminlogin' element={<Login />}></Route>
       <Route path='/employee_login' element={<EmployeeLogin />}></Route>
       <Route path='/student_login' element={<StudentLogin />}></Route>
@@ -62,7 +64,7 @@ function App() {
       <Route path='/submit_pending' element={<SubmitPending />}></Route>
       <Route path='/employee_detail/:id' element={<EmployeeDetail />}></Route>
       <Route path='/school_supervisor_page/:id' element={
-        <PrivateRoute>
+        <PrivateRoute requiredRole={"school_supervisor"}>
           <SupervisorSchoolPage />
         </PrivateRoute>
 
@@ -71,7 +73,7 @@ function App() {
 
       </Route>
       <Route path='/industry_supervisor_page/:id' element={
-        <PrivateRoute>
+        <PrivateRoute requiredRole={"industry_supervisor"}>
           <SupervisorIndustryPage />
         </PrivateRoute>
 
@@ -82,7 +84,7 @@ function App() {
 
       {/* <Route path='register_student/:id' element={<RegisterStudent />}></Route> */}
       <Route path='/dashboard' element={
-        <PrivateRoute >
+        <PrivateRoute requiredRole={"admin"}>
           <Dashboard />
         </PrivateRoute>
       }>
@@ -106,7 +108,7 @@ function App() {
         
       </Route>
     <Route path='/student_dashboard/:id' element={
-      <PrivateRoute >
+      <PrivateRoute requiredRole={"student"}>
         <StudentDashboard />
       </PrivateRoute>
     }>
@@ -114,7 +116,7 @@ function App() {
       <Route path={'/student_dashboard/:id'+'/register_student'} element={<RegisterStudent />}></Route>
       {/* <Route path={'/student_dashboard/:id'+'/logbook'} element={<Logbook />}></Route>       */}
         <Route path={'/student_dashboard/:id'+'/logbook'} element={
-          <PrivateRoute >
+          <PrivateRoute requiredRole={"student"}>
             <Logbook />
           </PrivateRoute>
         }>

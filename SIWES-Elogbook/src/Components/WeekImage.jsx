@@ -1,7 +1,8 @@
 // import React from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig'
 
 const WeekImage = () => {
     const {id} = useParams()
@@ -9,10 +10,10 @@ const WeekImage = () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL
 
     useEffect(() => {
-        axios.get(apiUrl + '/student/get_week_image/'+id)
+        axiosInstance.get(apiUrl + '/student/get_week_image/'+id)
         .then(result => {
             setWeekImages(result.data);
-            console.log(JSON.stringify(result.data))
+            // console.log(JSON.stringify(result.data))
         })
         .catch(err => console.log(err));
     }, [])

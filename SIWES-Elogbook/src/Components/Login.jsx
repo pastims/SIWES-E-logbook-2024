@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from './AuthContext'
 import './style.css'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from '../axiosConfig'
 
 const Login = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -11,14 +13,22 @@ const Login = () => {
         password: ''
     })
     const [error, setError] = useState(null)
+    // const [role, setRole] = useState(null)
+
+    const { login } = useContext(AuthContext);
+
     const navigate = useNavigate()
     axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault()
-        axios.post(apiUrl + '/auth/adminlogin', values)
+        axiosInstance.post(apiUrl + '/auth/adminlogin', values)
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)
+                localStorage.setItem("token", result.data.token)
+                console.log(result.data)
+                login(result.data.role)
+                // setRole(result.data.role)
                 navigate('/dashboard')
             } else {
                 setError(result.data.Error)

@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig'
 
 const AddCategory = () => {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -9,7 +10,7 @@ const AddCategory = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post(apiUrl + '/auth/add_category', {category})
+        axiosInstance.post(apiUrl + '/auth/add_category', {category})
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/category')

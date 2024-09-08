@@ -1,6 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { axiosInstance } from '../axiosConfig';
 
 
 const EmployeeDetail = () => {
@@ -9,14 +10,14 @@ const EmployeeDetail = () => {
     const {id} = useParams()
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get(apiUrl + '/employee/detail/'+id)
+        axiosInstance.get(apiUrl + '/employee/detail/'+id)
         .then(result => {
             setEmployee(result.data[0])
         })
         .catch(err => console.log(err))
     }, [])
     const handleLogout = () => {
-        axios.get(apiUrl + '/employee/logout')
+        axiosInstance.get(apiUrl + '/employee/logout')
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")

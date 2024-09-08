@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import './style.css'
-import axios from 'axios'
+// import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { axiosInstance } from '../axiosConfig';
 
 const StudentFirstLogin = () => {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -27,7 +28,7 @@ const StudentFirstLogin = () => {
         if (passwords.password == passwords.confirm_password) {
             values.password = passwords.password;
             setError('');
-            axios.put(apiUrl + '/auth/student_first_login', values)
+            axiosInstance.put(apiUrl + '/auth/student_first_login', values)
             .then(result => {
                 if(result.data.Status) {
                         navigate('/student_login/')

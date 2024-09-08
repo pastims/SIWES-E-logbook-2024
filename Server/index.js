@@ -9,9 +9,11 @@ import { SchoolSupervisorRouter } from "./Routes/SchoolSupervisorRoute.js";
 import { IndustrySupervisorRouter } from "./Routes/IndustrySupervisorRoute.js";
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 app.use(cors({
-    origin: ["https://siwes-e-logbook-2024.vercel.app"],
+    origin: ["http://localhost:5173"],
+    // origin: ["https://siwes-e-logbook-2024.vercel.app"],
     methods: ['GET', 'POST', 'PUT', "DELETE"],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -31,7 +33,7 @@ const verifyUser = (req, res, next) => {
         return res.json({Status: false, message: 'No token provided'})
     }
     if(token) {
-        Jwt.verify(token, "jwt_secret_key", (err, decoded) => {
+        Jwt.verify(token, "4781SIWES9912sjad34&*@", (err, decoded) => {
             if(err) return res.json({Status: false, Error: "Wrong Token"})
             req.id = decoded.id;
             req.role = decoded.role;
