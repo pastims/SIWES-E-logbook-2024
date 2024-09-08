@@ -87,15 +87,26 @@ const con = mysql.createPool({
     queueLimit: 0
 });
 
-
-con.connect(function(err) {
-    if(err) {
-        console.log("Conection Error", err.stack)
-    } else {
-        // console.log("Connected!")
-        console.log("Connected to Database")
+const testConnection = async () => {
+    try {
+        const connection = await con.getConnection();
+        console.log('Connected successfully');
+        connection.release(); // Release the connection back to the con
+    } catch (err) {
+        console.error('Error connecting to the database:', err.message);
     }
-})
+};
+
+// testConnection();
+
+// con.connect(function(err) {
+//     if(err) {
+//         console.log("Conection Error", err.stack)
+//     } else {
+//         // console.log("Connected!")
+//         console.log("Connected to Database")
+//     }
+// })
 
 // Export the con
 export default con;
