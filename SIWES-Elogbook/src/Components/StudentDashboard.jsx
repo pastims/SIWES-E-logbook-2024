@@ -79,6 +79,15 @@ const StudentDashboard = () => {
               </li>
               <li className="w-100">
                 <Link
+                  to={'/student_dashboard/'+id+'/student_forms'}
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-ui-checks ms-2"></i>
+                  <span className="ms-4">Forms</span>
+                </Link>
+              </li>
+              <li className="w-100">
+                <Link
                   to={"/student_dashboard/"+id+"/logbook"}
                   className="nav-link px-0 align-middle text-white"
                 >

@@ -5,7 +5,7 @@ const StudentForms = () => {
 
   return (
     <div>
-          <div className='d-flex justify-content-center flex-column align-items-center mt-3'>
+          <div className='d-flex justify-content-center flex-column align-items-center mt-3 p-3'>
             <h3>Student Forms for registration</h3>
             <p>Upon completion as scheduled, submit at your nearest ITS office for registration.</p>
           <table className="table">
@@ -13,7 +13,7 @@ const StudentForms = () => {
             <tr>
               <th>File no</th>
               <th>Document</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
