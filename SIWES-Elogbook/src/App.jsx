@@ -46,6 +46,7 @@ import AddDay from './Components/AddDay'
 import SubmitPending from './Components/SubmitPending'
 import PendingProfile from './Components/PendingProfile'
 import Unauthorized from './Components/Unauthorized'
+import StudentForms from './Components/StudentForms'
 
 function App() {
 
@@ -114,6 +115,7 @@ function App() {
     }>
       <Route path={'/student_dashboard/:id'} element={<StudentProfile />}></Route>
       <Route path={'/student_dashboard/:id'+'/register_student'} element={<RegisterStudent />}></Route>
+      <Route path={'/student_dashboard/:id'+'/student_forms'} element={<StudentForms />}></Route>
       {/* <Route path={'/student_dashboard/:id'+'/logbook'} element={<Logbook />}></Route>       */}
         <Route path={'/student_dashboard/:id'+'/logbook'} element={
           <PrivateRoute requiredRole={"student"}>
