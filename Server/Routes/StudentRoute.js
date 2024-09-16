@@ -153,24 +153,56 @@ const IMGUR_CLIENT_ID = 'bb6970684d3a524';
 const storageImgur = multer.memoryStorage();
 const uploadImgur = multer({ storageImgur });
 
-const uploadToImgur = (file) => {
-    const imageData = file.buffer.toString('base64');
+// const uploadToImgur = (file) => {
+//     const imageData = file.buffer.toString('base64');
 
-    return axios.post(
-        'https://api.imgur.com/3/image', 
-        { image: imageData },
-        {
-            headers: {
-                Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-            },
+//     return axios.post(
+//         'https://api.imgur.com/3/image', 
+//         { image: imageData },
+//         {
+//             headers: {
+//                 Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+//             },
+//         }
+//     ).then(response => {
+//         return response.data.data.link;
+//     }).catch(err => {
+//         console.error('Error details:', err.response ? err.response.data : err.message);
+//         throw new Error('Error uploading to Imgur: ' + err.message);
+//     });
+// };
+
+const uploadToImgur = async (file) => {
+    const imageData = file.buffer.toString('base64');
+    let retries = 3; // Set the number of retries
+
+    while (retries > 0) {
+        try {
+            const response = await axios.post(
+                'https://api.imgur.com/3/image',
+                { image: imageData },
+                {
+                    headers: {
+                        Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+                    },
+                }
+            );
+            return response.data.data.link; // Return the image link on success
+        } catch (err) {
+            // Check if the error is a 503
+            if (err.response && err.response.status === 503) {
+                console.error('Service unavailable, retrying...');
+                retries -= 1; // Decrement the retry counter
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
+            } else {
+                console.error('Error details:', err.response ? err.response.data : err.message);
+                throw new Error('Error uploading to Imgur: ' + (err.response ? err.response.data : err.message));
+            }
         }
-    ).then(response => {
-        return response.data.data.link;
-    }).catch(err => {
-        console.error('Error details:', err.response ? err.response.data : err.message);
-        throw new Error('Error uploading to Imgur: ' + err.message);
-    });
+    }
+    throw new Error('Error uploading to Imgur: Max retries exceeded'); // Throw an error if all retries fail
 };
+
 
 // IMGUR OPTION ====================================
 router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
