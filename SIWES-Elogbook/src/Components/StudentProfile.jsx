@@ -63,7 +63,8 @@ const StudentProfile = () => {
       return (
       <div>
           <div className='d-flex justify-content-center flex-column align-items-center mt-3'>
-              <img src={apiUrl + `/Student_Pics/`+student.image} className='student_image'/>
+              {/* <img src={apiUrl + `/Student_Pics/`+student.image} className='student_image' alt='Student Picture'/> */}
+              <img src={student.image} className='student_image' alt='Student Picture'/>
               <div className='d-flex align-items-center flex-column mt-5'>
               <span className="fs-5 fw-bolder d-none d-sm-inline">
                 Hello {student.name}!
