@@ -112,7 +112,9 @@ const SchoolSupervisorSearch = () => {
                 <table className='container-fluid d-flex align-items-center border border-3 border-info mb-4 rounded p-3'>
                     <tbody>
                         <tr>
-                            <td className='row flex-nowrap'><div><img src={student.image} className='student_search_image row flex-nowrap'/></div></td>
+                            <td className='row flex-nowrap'><div>
+                                <img src={student.image} className='student_search_image row flex-nowrap' alt='Image Missing'/>
+                                </div></td>
                             <td className='row flex-nowrap'>Name: {student.name}</td>
                             <td className='row flex-nowrap'>Matric Number: {student.matric_no}</td>
                             <td className='row flex-nowrap'>Email: {student.email}</td>
@@ -232,7 +234,7 @@ const SchoolSupervisorSearch = () => {
                     <tbody>
                             <tr>
                                 <td>Week {c.week_number}<br />
-                                <img src={c.week_image} className='week_image'/></td>
+                                <img src={c.week_image} className='week_image' alt='Image not available'/></td>
                                 {/* <img src={/apiUrl + `/Week_Pics/`+ c.week_image} className='week_image'/></td> */}
                             </tr>
                     </tbody>
