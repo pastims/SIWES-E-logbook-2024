@@ -75,7 +75,7 @@ const StudentProfile = () => {
     uploadToImgbb(file)
         .then(imageUrl => {
             console.log('Image URL:', imageUrl); // Do something with the image URL
-            axiosInstance.put(apiUrl + '/student/student_image_save/' + id, imageUrl)
+            axiosInstance.put(apiUrl + '/student/student_image_save/' + id, {imageUrl})
                 .then(result => {
                     if(result.data.Status) {
                         console.log('works')

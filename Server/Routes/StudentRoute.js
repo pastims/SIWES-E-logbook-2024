@@ -235,7 +235,7 @@ router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
 
 router.put('/student_image_save/:id', upload.single('image'), (req, res) => {
     const id = req.params.id;
-    const image = req.body;
+    const image = req.body.imageUrl;
     const sql = `UPDATE student
     SET image = ?
     WHERE id = ?;`
