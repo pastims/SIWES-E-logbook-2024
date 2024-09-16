@@ -40,24 +40,66 @@ const StudentProfile = () => {
         // .catch(err => console.log(err))
     }, [])
 
-    const handleImageSubmit = (e) => {
-        e.preventDefault()
+    const uploadToImgbb = (file) => {
         const formData = new FormData();
-        formData.append('image', image.image);
+        formData.append('image', file); // 'image' is the key expected by Imgbb
     
-        axiosInstance.put(apiUrl + '/student/student_image/' + id, formData)
-        .then(result => {
-            if(result.data.Status) {
-                console.log('works')
+        // Return a promise-based fetch request
+        return fetch(`https://api.imgbb.com/1/upload?key=your_imgbb_api_key_here`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            if (data.success) {
+                return data.data.url; // Resolve the promise with the image URL
             } else {
-                alert(result.data.Error)
-                console.log('not works')
-                console.log(result)
+                return Promise.reject('Image upload failed'); // Reject if the upload fails
             }
         })
-        .then(result => console.log(result.data))
-        .catch(err => console.log(err))
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            return Promise.reject(error); // Reject the error to handle outside the function
+        });
+    };
+
+    const handleImageSubmit = (e) => {
+        e.preventDefault()
+        const file = image.image; // Get the first selected file
+    if (!file) {
+        console.error('No file selected');
+        return;
+    }
+
+    // Call the upload function and handle it with .then and .catch
+    uploadToImgbb(file)
+        .then(imageUrl => {
+            console.log('Image URL:', imageUrl); // Do something with the image URL
+            // For example, display the image or save it to a database
+        })
+        .catch(error => {
+            console.error('Upload failed:', error); // Handle the error
+        });
       }
+
+    // const handleImageSubmit = (e) => {
+    //     e.preventDefault()
+    //     const formData = new FormData();
+    //     formData.append('image', image.image);
+    
+    //     axiosInstance.put(apiUrl + '/student/student_image/' + id, formData)
+    //     .then(result => {
+    //         if(result.data.Status) {
+    //             console.log('works')
+    //         } else {
+    //             alert(result.data.Error)
+    //             console.log('not works')
+    //             console.log(result)
+    //         }
+    //     })
+    //     .then(result => console.log(result.data))
+    //     .catch(err => console.log(err))
+    //   }
         
       
       return (
