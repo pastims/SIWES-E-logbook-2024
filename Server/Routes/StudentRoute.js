@@ -167,7 +167,7 @@ const uploadToImgur = (file) => {
     ).then(response => {
         return response.data.data.link;
     }).catch(err => {
-        throw new Error('Error uploading to Imgur');
+        throw new Error('Error uploading to Imgur: ' + err.message);
     });
 };
 
