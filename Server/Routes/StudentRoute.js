@@ -233,6 +233,19 @@ router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
     })
 })
 
+router.put('/student_image_save/:id', upload.single('image'), (req, res) => {
+    const id = req.params.id;
+    const image = req.body.imageUrl;
+    const sql = `UPDATE student
+    SET image = ?
+    WHERE id = ?;`
+
+    con.query(sql, [image, id], (err, result) => {
+        if(err) return res.json({Status: false, Error: err})
+        return res.json({Status: true})
+    })
+})
+
 
 router.put('/add_week_image/:id', uploadImgur.single('image'), (req, res) => {
     const id = req.params.id;

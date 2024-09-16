@@ -45,7 +45,7 @@ const StudentProfile = () => {
         formData.append('image', file); // 'image' is the key expected by Imgbb
     
         // Return a promise-based fetch request
-        return fetch(`https://api.imgbb.com/1/upload?key=your_imgbb_api_key_here`, {
+        return fetch(`https://api.imgbb.com/1/upload?key=689383609c5f170bdc6f66c6bfd1e996`, {
             method: 'POST',
             body: formData,
         })
@@ -75,6 +75,16 @@ const StudentProfile = () => {
     uploadToImgbb(file)
         .then(imageUrl => {
             console.log('Image URL:', imageUrl); // Do something with the image URL
+            axiosInstance.put(apiUrl + '/student/student_image_save/' + id, imageUrl)
+                .then(result => {
+                    if(result.data.Status) {
+                        console.log('works')
+                    } else {
+                        alert(result.data.Error)
+                        console.log('not works')
+                        console.log(result)
+                    }
+                })
             // For example, display the image or save it to a database
         })
         .catch(error => {
