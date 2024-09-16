@@ -135,13 +135,13 @@ const SchoolSupervisorSearch = () => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><b>Name:</b> {company.name}</td>
+                            <td><b>Name:</b> {company.name || ""}</td>
                         </tr>
                         <tr>
-                            <td><b>Address:</b> {company.address}</td>
+                            <td><b>Address:</b> {company.address || ""}</td>
                         </tr>
                         <tr>
-                            <td><b>Phone Number:</b> {company.phone_number}</td>
+                            <td><b>Phone Number:</b> {company.phone_number || ""}</td>
                         </tr>
                     </tbody>
                 </table>
