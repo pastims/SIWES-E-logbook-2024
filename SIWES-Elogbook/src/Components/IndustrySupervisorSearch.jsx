@@ -166,14 +166,15 @@ const IndustrySupervisorSearch = () => {
                                     </th>
                                 <td>
                                 <div className="col-12">
-            
+
+                                <p>{c.industry_supervisor_comment || ''}</p>
                                 <textarea
                                 type="text"
                                 rows="2"
                                 className="form-control rounded-0"
                                 id="sup-comment"
                                 placeholder="Enter Week's Comment"
-                                value={c.industry_supervisor_comment || ''}
+                                // value={c.industry_supervisor_comment || ''}
                                 maxLength="150"
                                 onChange={(e) =>
                                     setSupComment({...supComment, comment: e.target.value })
