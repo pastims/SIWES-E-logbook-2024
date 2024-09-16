@@ -158,16 +158,20 @@ const uploadImgur = multer({ storageImgur });
 const uploadToImgbb = (file) => {
     const imageData = file.buffer.toString('base64');
 
-    return axios.post(
-        'https://api.imgbb.com/1/upload', 
-        { 
-            key: IMGBB_API_KEY,
-            image: imageData,
-        })
-        .then(response => {
+    // return axios.post(
+    //     'https://api.imgbb.com/1/upload', 
+    //     { 
+    //         key: IMGBB_API_KEY,
+    //         image: imageData,
+    //     })
+    return axios.post(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        image: imageData,
+    })
+    .then(response => {
         return response.data.data.url;
-    }).catch(err => {
-        throw new Error('Error uploading to ImgBB: ' + err.message);
+    })
+    .catch(error => {
+        throw new Error('Error uploading to Imgbb: ' + error.message);
     });
 };
 
@@ -209,6 +213,9 @@ router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
     // const image = upload.single(req.body.image)
 
     // const imageUrl = await uploadToImgur(req.file);
+    if (!req.file) {
+        return res.status(400).json({ Status: false, Error: 'No file uploaded' });
+    }
 
     // uploadToImgur(req.file)
     uploadToImgbb(req.file)
