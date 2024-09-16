@@ -147,7 +147,7 @@ const upload = multer({
 })
 // end image upload
 
-//imgur image upload
+//imgur / IMGBB image upload
 const IMGUR_CLIENT_ID = 'bb6970684d3a524';
 const IMGBB_API_KEY = '689383609c5f170bdc6f66c6bfd1e996';
 
@@ -171,7 +171,7 @@ const uploadToImgbb = (file) => {
         return response.data.data.url;
     })
     .catch(error => {
-        throw new Error('Error uploading to Imgbb: ' + error.message + imageData);
+        throw new Error('Error uploading to Imgbb: ' + error.message + file + imageData);
     });
 };
 
