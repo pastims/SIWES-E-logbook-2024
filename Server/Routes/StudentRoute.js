@@ -1,5 +1,6 @@
 import express, { response } from 'express'
 import con from "../utils/db.js";
+import axios from 'axios';
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import multer from 'multer';
@@ -202,7 +203,7 @@ router.put('/add_week_image/:id', uploadImgur.single('image'), (req, res) => {
     uploadToImgur(req.file)
     .then(imageUrl => {
             const sql = `UPDATE logbook SET week_image = ? WHERE student_id = ? and week_number = ?;`
-            
+
             con.query(sql, [image, id, week_no], (err, result) => {
                 if(err) return res.json({Status: false, Error: err})
                 return res.json({Status: true, ImageUrl: imageUrl})
