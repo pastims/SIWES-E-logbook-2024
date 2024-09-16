@@ -149,28 +149,27 @@ const upload = multer({
 
 //imgur image upload
 const IMGUR_CLIENT_ID = 'bb6970684d3a524';
+const IMGBB_API_KEY = '689383609c5f170bdc6f66c6bfd1e996';
 
 const storageImgur = multer.memoryStorage();
 const uploadImgur = multer({ storageImgur });
 
-// const uploadToImgur = (file) => {
-//     const imageData = file.buffer.toString('base64');
 
-//     return axios.post(
-//         'https://api.imgur.com/3/image', 
-//         { image: imageData },
-//         {
-//             headers: {
-//                 Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-//             },
-//         }
-//     ).then(response => {
-//         return response.data.data.link;
-//     }).catch(err => {
-//         console.error('Error details:', err.response ? err.response.data : err.message);
-//         throw new Error('Error uploading to Imgur: ' + err.message);
-//     });
-// };
+const uploadToImgbb = (file) => {
+    const imageData = file.buffer.toString('base64');
+
+    return axios.post(
+        'https://api.imgbb.com/1/upload', 
+        { 
+            key: IMGBB_API_KEY,
+            image: imageData,
+        })
+        .then(response => {
+        return response.data.data.url;
+    }).catch(err => {
+        throw new Error('Error uploading to ImgBB: ' + err.message);
+    });
+};
 
 const uploadToImgur = async (file) => {
     const imageData = file.buffer.toString('base64');
@@ -211,7 +210,8 @@ router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
 
     // const imageUrl = await uploadToImgur(req.file);
 
-    uploadToImgur(req.file)
+    // uploadToImgur(req.file)
+    uploadToImgbb(req.file)
     .then(imageUrl => {
         const sql = `UPDATE student SET image = ? WHERE id = ?;`
 
@@ -233,7 +233,7 @@ router.put('/add_week_image/:id', uploadImgur.single('image'), (req, res) => {
     // const image = req.file.filename;
     const week_no = req.body.week_no;
     
-    uploadToImgur(req.file)
+    uploadToImgbb(req.file)
     .then(imageUrl => {
             const sql = `UPDATE logbook SET week_image = ? WHERE student_id = ? and week_number = ?;`
 
