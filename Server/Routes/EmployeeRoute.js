@@ -41,6 +41,24 @@ router.post("/employee_login", (req, res) => {
 
   //==================GUEST CODE================================
 
+  router.put('/student_first_login', (req, res) => {
+    const sql = `UPDATE student 
+    SET password = ? 
+    WHERE email = ? AND matric_no = ?`;
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        const values = [
+            hash,
+            req.body.test_email,
+            req.body.test_matric_no,
+        ]
+        con.query(sql, [values[0], values[1], values[2]], (err, result) => {
+            if(err) return res.json({Status: false, Error: "Query Error"+err})
+            return res.json({Status: true, Result: result})
+        })
+    })
+})
+
   router.post('/submit_company', (req, res) => {
     const sql = `INSERT INTO pending_details 
                 (role, name, address, phone_number) 

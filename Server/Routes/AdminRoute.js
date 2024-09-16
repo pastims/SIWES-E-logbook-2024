@@ -220,23 +220,23 @@ router.get('/industry_supervisor', (req, res) => {
     })
 })
 
-router.put('/student_first_login', (req, res) => {
-    const sql = `UPDATE student 
-    SET password = ? 
-    WHERE email = ? AND matric_no = ?`;
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if(err) return res.json({Status: false, Error: "Query Error"})
-        const values = [
-            hash,
-            req.body.test_email,
-            req.body.test_matric_no,
-        ]
-        con.query(sql, [values[0], values[1], values[2]], (err, result) => {
-            if(err) return res.json({Status: false, Error: "Query Error"+err})
-            return res.json({Status: true, Result: result})
-        })
-    })
-})
+// router.put('/student_first_login', (req, res) => {
+//     const sql = `UPDATE student 
+//     SET password = ? 
+//     WHERE email = ? AND matric_no = ?`;
+//     bcrypt.hash(req.body.password, 10, (err, hash) => {
+//         if(err) return res.json({Status: false, Error: "Query Error"})
+//         const values = [
+//             hash,
+//             req.body.test_email,
+//             req.body.test_matric_no,
+//         ]
+//         con.query(sql, [values[0], values[1], values[2]], (err, result) => {
+//             if(err) return res.json({Status: false, Error: "Query Error"+err})
+//             return res.json({Status: true, Result: result})
+//         })
+//     })
+// })
 
 router.get('/employee/:id', (req, res) => {
     const id = req.params.id;
