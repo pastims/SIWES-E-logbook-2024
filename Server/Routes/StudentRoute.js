@@ -233,7 +233,7 @@ router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
     })
 })
 
-router.put('/student_image_save/:id', upload.single('image'), (req, res) => {
+router.put('/student_image_save/:id', (req, res) => {
     const id = req.params.id;
     const image = req.body.imageUrl;
     const sql = `UPDATE student
@@ -299,6 +299,21 @@ const image_upload = multer({
 })
 // end week image upload
 
+
+router.put('/add_week_image_save/:id', (req, res) => {
+    const id = req.params.id;
+    // const image = upload.single(req.body.image)
+    const sql = `UPDATE logbook
+    SET week_image = ?
+    WHERE student_id = ? and week_number = ?;`
+    const image = req.body.imageUrl;
+    const week_no = req.body.week_no;
+
+    con.query(sql, [image, id, week_no], (err, result) => {
+        if(err) return res.json({Status: false, Error: err})
+        return res.json({Status: true})
+    })
+})
 
 router.put('/add_week_image[PAUSED]/:id', image_upload.single('image'), (req, res) => {
     const id = req.params.id;

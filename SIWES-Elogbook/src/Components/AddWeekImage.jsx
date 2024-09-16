@@ -14,16 +14,43 @@ const AddWeekImage = () => {
     });
     const navigate = useNavigate();
 
-    const handleImageSubmit = (e) => {
-        e.preventDefault()
-        // console.log(WeekImage.week_no);
-        // console.log(WeekImage.image);
-        console.log(WeekImage);
-        const formData = new FormData();
-        formData.append('week_no', WeekImage.week_no);
-        formData.append('image', WeekImage.image);
-    
-        axiosInstance.put(apiUrl + '/student/add_week_image/' + id, formData)
+    const uploadToImgbb = (file) => {
+      const formData = new FormData();
+      formData.append('image', file); // 'image' is the key expected by Imgbb
+  
+      // Return a promise-based fetch request
+      return fetch(`https://api.imgbb.com/1/upload?key=689383609c5f170bdc6f66c6bfd1e996`, {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.json()) // Parse the JSON response
+      .then(data => {
+          if (data.success) {
+              return data.data.url; // Resolve the promise with the image URL
+          } else {
+              return Promise.reject('Image upload failed'); // Reject if the upload fails
+          }
+      })
+      .catch(error => {
+          console.error('Error uploading image:', error);
+          return Promise.reject(error); // Reject the error to handle outside the function
+      });
+  };
+
+  const handleImageSubmit = (e) => {
+      e.preventDefault()
+      const file = WeekImage.image; // Get the first selected file
+  if (!file) {
+      console.error('No file selected');
+      return;
+  }
+
+  // Call the upload function and handle it with .then and .catch
+  uploadToImgbb(file)
+      .then(imageUrl => {
+          console.log('Image URL:', imageUrl); // Do something with the image URL
+          const week_no = WeekImage.week_no;
+          axiosInstance.put(apiUrl + '/student/add_week_image_save/' + id, {imageUrl, week_no})
         .then(result => {
             if(result.data.Status) {
                 console.log('works')
@@ -38,7 +65,38 @@ const AddWeekImage = () => {
         })
         .then(result => console.log(result.data))
         .catch(err => console.log(err))
-      }
+          // For example, display the image or save it to a database
+      })
+      .catch(error => {
+          console.error('Upload failed:', error); // Handle the error
+      });
+    }
+
+    // const handleImageSubmit = (e) => {
+    //     e.preventDefault()
+    //     // console.log(WeekImage.week_no);
+    //     // console.log(WeekImage.image);
+    //     console.log(WeekImage);
+    //     const formData = new FormData();
+    //     formData.append('week_no', WeekImage.week_no);
+    //     formData.append('image', WeekImage.image);
+    
+    //     axiosInstance.put(apiUrl + '/student/add_week_image/' + id, formData)
+    //     .then(result => {
+    //         if(result.data.Status) {
+    //             console.log('works')
+    //             console.log(result)
+    //             // alert('Wait!')
+    //             navigate('/student_dashboard/'+id+'/logbook/week_image')
+    //         } else {
+    //             alert(result.data.Error)
+    //             console.log('not works')
+    //             console.log(result)
+    //         }
+    //     })
+    //     .then(result => console.log(result.data))
+    //     .catch(err => console.log(err))
+    //   }
 
 
     

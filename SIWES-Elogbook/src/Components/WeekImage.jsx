@@ -49,7 +49,7 @@ const WeekImage = () => {
                     <tbody>
                             <tr>
                                 <td>Week {c.week_number}<br />
-                                <img src={apiUrl + `/Week_Pics/`+ c.week_image} className='week_image'/></td>
+                                <img src={c.week_image} className='week_image'/></td>
                             </tr>
                     </tbody>
             </table>
