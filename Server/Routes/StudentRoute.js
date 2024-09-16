@@ -171,7 +171,7 @@ const uploadToImgbb = (file) => {
         return response.data.data.url;
     })
     .catch(error => {
-        throw new Error('Error uploading to Imgbb: ' + error.message);
+        throw new Error('Error uploading to Imgbb: ' + error.message + imageData);
     });
 };
 
