@@ -55,13 +55,15 @@ const SchoolSupervisorSearch = () => {
             })
         }).catch(err => console.log(err))
 
-        axiosInstance.get(apiUrl + '/school_supervisor/get_company/'+ compid)
-          .then(result => {
-                console.log(result)
-                console.log(result.data)
-                // console.log(result.data.Result)
-                setCompany(result.data[0]);
-          }).catch(err => console.log(err))
+        if (compid) {
+            axiosInstance.get(apiUrl + '/school_supervisor/get_company/'+ compid)
+              .then(result => {
+                    console.log(result)
+                    console.log(result.data)
+                    // console.log(result.data.Result)
+                    setCompany(result.data[0]);
+              }).catch(err => console.log(err))
+        }
 
         axiosInstance.get(apiUrl + '/school_supervisor/view_week/'+id2)
         .then(result => {
