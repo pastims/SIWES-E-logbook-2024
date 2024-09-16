@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import con from "../utils/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
@@ -146,7 +146,76 @@ const upload = multer({
 })
 // end image upload
 
-router.put('/student_image/:id', upload.single('image'), (req, res) => {
+//imgur image upload
+const IMGUR_CLIENT_ID = 'bb6970684d3a524';
+
+const storageImgur = multer.memoryStorage();
+const uploadImgur = multer({ storageImgur });
+
+const uploadToImgur = (file) => {
+    const imageData = file.buffer.toString('base64');
+
+    return axios.post(
+        'https://api.imgur.com/3/image', 
+        { image: imageData },
+        {
+            headers: {
+                Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+            },
+        }
+    ).then(response => {
+        return response.data.data.link;
+    }).catch(err => {
+        throw new Error('Error uploading to Imgur');
+    });
+};
+
+// IMGUR OPTION ====================================
+router.put('/student_image/:id', uploadImgur.single('image'), (req, res) => {
+    const id = req.params.id;
+    // const image = upload.single(req.body.image)
+
+    // const imageUrl = await uploadToImgur(req.file);
+
+    uploadToImgur(req.file)
+    .then(imageUrl => {
+        const sql = `UPDATE student SET image = ? WHERE id = ?;`
+
+        con.query(sql, [imageUrl, id], (err, result) => {
+            if(err) return res.json({Status: false, Error: err});
+    
+            return res.json({Status: true, ImageUrl: imageUrl});
+        })
+    })
+    .catch (err => {
+        return res.json({ Status: false, Error: err.message });
+    })
+})
+
+
+router.put('/add_week_image/:id', uploadImgur.single('image'), (req, res) => {
+    const id = req.params.id;
+    // const image = upload.single(req.body.image)
+    // const image = req.file.filename;
+    const week_no = req.body.week_no;
+    
+    uploadToImgur(req.file)
+    .then(imageUrl => {
+            const sql = `UPDATE logbook SET week_image = ? WHERE student_id = ? and week_number = ?;`
+            
+            con.query(sql, [image, id, week_no], (err, result) => {
+                if(err) return res.json({Status: false, Error: err})
+                return res.json({Status: true, ImageUrl: imageUrl})
+            })
+        })
+    .catch (err => {
+        return res.json({Status: false, Error: err.message});
+    })
+}) 
+//=================================
+
+// BACKEND IMAGE OPTION
+router.put('/student_image[PAUSED]/:id', upload.single('image'), (req, res) => {
     const id = req.params.id;
     // const image = upload.single(req.body.image)
     const sql = `UPDATE student
@@ -169,12 +238,15 @@ const image_storage = multer.diskStorage({
         cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
     }
 })
+
+
 const image_upload = multer({
     storage: image_storage
 })
 // end week image upload
 
-router.put('/add_week_image/:id', image_upload.single('image'), (req, res) => {
+
+router.put('/add_week_image[PAUSED]/:id', image_upload.single('image'), (req, res) => {
     const id = req.params.id;
     // const image = upload.single(req.body.image)
     const sql = `UPDATE logbook
