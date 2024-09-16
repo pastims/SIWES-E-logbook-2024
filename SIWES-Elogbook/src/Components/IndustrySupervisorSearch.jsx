@@ -167,7 +167,7 @@ const IndustrySupervisorSearch = () => {
                                 <td>
                                 <div className="col-12">
 
-                                <p>{c.industry_supervisor_comment || ''}</p>
+                                <p className='text-danger'>{c.industry_supervisor_comment || ''}</p><br></br>
                                 <textarea
                                 type="text"
                                 rows="2"
